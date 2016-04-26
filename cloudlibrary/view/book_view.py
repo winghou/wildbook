@@ -9,8 +9,8 @@ from django.http import HttpResponseNotModified, JsonResponse, Http404
 from django.shortcuts import render
 
 from cloudlibrary.STATIC_VARS import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME
-from cloudlibrary.models import WildBook, WildUser
-from cloudlibrary.public.qiniu import save_file_to_qiniu
+from cloudlibrary.models import WildBook, WildUser, WildBookHistory
+from cloudlibrary.public.qiniu import save_file_to_qiniu, del_pic_from_qiniu
 from wildteam import settings
 from wildteam.settings import BASE_DIR
 
@@ -54,6 +54,13 @@ def del_book(request):
             os.remove(img_path)
             pass
         book.delete()
+        # 从七牛删除相应图片
+        try:
+            del_pic_from_qiniu(book.pic)
+            pass
+        except Exception as e:
+            print("从七牛删除图片时出错:", e)
+            pass
         pass
     except Exception as e:
         print(e)
@@ -143,6 +150,14 @@ def deal_add_book(request):
         # print("添加书籍时出错: ", e)
         return render(request, "cloudlibrary/msg.html", cont_data)
     else:
+        # 保存已发布的图书, 删除图书的时候不删除该记录
+        try:
+            book_history = WildBookHistory(name=book.name, description=book.description, owner=book.owner.id)
+            book_history.save()
+            pass
+        except Exception as e:
+            print("保存书籍记录时出错:", e)
+            pass
         cont_data["res"] = "success"
         cont_data["msg"] = "您的图书发布成功!"
         cont_data["next_page"] = "/index"

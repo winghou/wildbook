@@ -47,3 +47,12 @@ class WildBook(models.Model):
         return self.name
 
     pass
+
+
+class WildBookHistory(models.Model):
+    """保存发布的图书的记录"""
+    name = models.CharField(max_length=50, default="未知")
+    description = models.CharField(max_length=200, default="")
+    owner = models.IntegerField(null=True)
+    time = models.DateTimeField(auto_now_add=True)
+    pass
