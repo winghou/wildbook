@@ -16,7 +16,9 @@
     });
 
 </script>
-<nav class="navbar navbar-light bg-faded navbar-fixed-top" style="-webkit-box-shadow: 0px 2px 3px 0px rgba(100,100,100,0.15);-moz-box-shadow:0px 2px 3px 0px rgba(100,100,100,0.15); -ms-box-shadow:0px 2px 3px 0px rgba(100,100,100,0.15); ">
+<nav class="navbar navbar-light bg-faded navbar-fixed-top"
+     style="-webkit-box-shadow: 0 2px 3px 0 rgba(100,100,100,0.15);-moz-box-shadow:0 2px 3px 0 rgba(100,100,100,0.15);
+     -ms-box-shadow:0 2px 3px 0 rgba(100,100,100,0.15); border-bottom: 1px solid #ddd;">
         <a style="margin-left: 100px;color: #5e5e5e;" class="navbar-brand" href="{% url 'cloudlibrary:index' %}">
             <strong>野生书云</strong>
         </a>
@@ -26,10 +28,10 @@
                       name="search_form">
                     {% csrf_token %}
 
-                        <input  class="form-control" name="search_input" type="text"
+                        <input  class="form-control" name="search_input" type="text" style="margin-top: 2px;"
                                value="{{ request.session.search_input }}"
                                placeholder="输入搜索内容" />
-                        <button style="text-align:center;" class="btn btn-success-outline" type="submit">搜索</button>
+                        <button style="text-align:center; margin-top: 2px;" class="btn btn-success-outline" type="submit">搜索</button>
 
                 </form>
             </li>
