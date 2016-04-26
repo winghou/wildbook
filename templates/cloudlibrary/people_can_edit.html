@@ -1,0 +1,334 @@
+{% load staticfiles %}
+{% include "cloudlibrary/includes/_common_head.html" %}
+<script language="javascript" src="{% static 'public/js/jquery.cookie.js' %}" xmlns="http://www.w3.org/1999/html"></script>
+<link rel="stylesheet" href="{% static 'cloudlibrary/css/people.css' %}">
+
+<script language="JavaScript">
+$(document).ready(function() {
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    // 编辑微信
+    var weixin = $('#weixin');
+    var weixininput = $('#weixin-input');
+    var weixinlable = $('#weixin-label-edit');
+    weixin.click(function() {
+        weixin.hide();
+        if (weixin.text() != "编辑微信") {
+            weixininput.val(weixin.text());
+        }
+        weixinlable.show();
+    });
+    $('#weixin-edit-confirm').click(function() {
+        weixin.text(weixininput.val());
+        if (weixininput.val().trim().length == 0) {
+            weixin.text("编辑微信");
+        }
+        weixin.show();
+        weixinlable.hide();
+        submit_edit();
+    });
+    // 编辑qq
+    var qq = $('#qq');
+    var qqinput = $('#qq-input');
+    var qqlable = $('#qq-label-edit');
+    qq.click(function() {
+        qq.hide();
+        if (qq.text() != "编辑QQ") {
+            qqinput.val(qq.text());
+        }
+        qqlable.show();
+    });
+    $('#qq-edit-confirm').click(function() {
+        qq.text(qqinput.val());
+        if (qqinput.val().trim().length == 0) {
+            qq.text("编辑QQ");
+        }
+        qq.show();
+        qqlable.hide();
+        submit_edit();
+    });
+
+    // 编辑tel
+    var tel = $('#tel');
+    var telinput = $('#tel-input');
+    var tellable = $('#tel-label-edit');
+    tel.click(function() {
+        tel.hide();
+        if (tel.text() != "编辑电话") {
+            telinput.val(tel.text());
+        }
+        tellable.show();
+    });
+    $('#tel-edit-confirm').click(function() {
+        tel.text(telinput.val());
+        if (telinput.val().trim().length == 0) {
+            tel.text("编辑电话");
+        }
+        tel.show();
+        tellable.hide();
+        submit_edit();
+    });
+
+    // 编辑nickname
+    var nicknamea = $('#nickname-a');
+    var nicknameinput = $('#nickname-input');
+    var nicknamelable = $('#nickname-label-edit');
+    nicknamea.click(function() {
+        nicknamea.hide();
+        if (nicknamea.text() != "编辑昵称") {
+            nicknameinput.val(nicknamea.text());
+        }
+        nicknamelable.show();
+    });
+    $('#nickname-edit-confirm').click(function() {
+        nicknamea.text(nicknameinput.val());
+        if (nicknameinput.val().trim().length == 0) {
+            nicknamea.text("编辑昵称");
+        }
+        nicknamea.show();
+        nicknamelable.hide();
+        submit_edit();
+    });
+
+    function submit_edit() {
+        var newweixinno = weixin.text();
+        var newqqno = qq.text();
+        var newnicknameno = nicknamea.text();
+        var newtelno = tel.text();
+
+        if (newweixinno == "编辑微信") {
+            newweixinno = ""
+        }
+        if (newqqno == "编辑QQ") {
+            newqqno = ""
+        }
+        if (newtelno == "编辑电话") {
+            newtelno = ""
+        }
+        if (newnicknameno == "编辑昵称") {
+            newnicknameno = ""
+        }
+
+        if (newnicknameno.trim().length == 0) {
+            alert("昵称不能为空");
+            return false;
+        }
+
+        var cont_data = {
+            weixin: newweixinno,
+            qq: newqqno,
+            nickname: newnicknameno,
+            tel: newtelno
+        };
+        var edit_res = true;
+        $.post("{% url 'cloudlibrary:edit_person' %}", cont_data, function(data) {
+            if (data["res"] == "error") {
+                alert(data["msg"]);
+                edit_res = false;
+            }
+        }, 'json');
+    }
+});
+function del_book(obj) {
+{#    alert(obj.id);#}
+    var book_id = obj.id;
+    $.post("{% url 'cloudlibrary:del_book' %}", {
+        id: book_id
+    }, function(data){
+        if (data["res"] == "error") {
+            alert(data["msg"]);
+        } else {
+        $('table[id=' + book_id + ']').hide();
+        $('hr[id=' + book_id + ']').hide();
+        }
+    }, 'json');
+}
+</script>
+
+{% include "cloudlibrary/includes/_common_head_sec.html" %}
+{% include "cloudlibrary/includes/_common_nav.html" %}
+{#以上为引入头部#}
+
+    {% csrf_token %}
+<div class="container" style="margin-top: 100px;">
+    <div class="row">
+    <div class="booksail col-lg-8">
+    <h4>我的书架</h4>
+        {% for book in books %}
+    <table id="{{ book.id }}" style="margin-bottom: 30px;background-color: #f0f0f0">
+        <tr>
+            <td>
+                <img style="width: 108px;height: 158px;" src="{{ book.pic }}" class="img-rounded"/>
+            </td>
+            <td  class="bookdetail">
+                <div>
+                    <h6 style="font-weight: bolder;">{{ book.name }}</h6>
+                    <p style="color: #555555;font-size: 14px;line-height: 150%;" class="bookdetail-bookname">{{ book.description }}</p>
+                </div>
+            </td>
+            <td style="vertical-align: top;">
+                <button class="btn btn-primary" style="width: 68px;background-color: #8b211e;margin-top: 10px;margin-right: 10px;" onclick="del_book(this)"
+                        id="{{ book.id }}">删除</button>
+            </td>
+        </tr>
+    </table>
+    {% endfor %}
+    {# 分页 #}
+<div style="margin-left: 40%;">
+<nav>
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page_first %}" aria-label="Previous">
+          <span aria-hidden="true">«</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+    {% if page1st > 0 %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page1st %}">{{ page1st }}</a>
+        </li>
+    {% endif %}
+    {% if page2ed > 0 %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page2ed %}">{{ page2ed }}</a>
+        </li>
+    {% endif %}
+    {% if page3th > 0 %}
+        <li class="page-item">
+        <a class="page-link" style="background-color: #adadad;" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page3th %}">
+            {{ page3th }}
+        </a>
+        </li>
+    {% endif %}
+    {% if page4th > 0 %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page4th %}">{{ page4th }}</a>
+        </li>
+    {% endif %}
+    {% if page5th > 0 %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page5th %}">{{ page5th }}</a>
+        </li>
+    {% endif %}
+      <li class="page-item">
+        <a class="page-link" href="{% url 'cloudlibrary:personinfo_with_page' viewuser.id  page_last %}" aria-label="Next">
+          <span aria-hidden="true">»</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+</nav>
+</div>
+{#分页结束#}
+{#个人信息    #}
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="card" style="position:fixed;width: 300px;margin-left: 60px;box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);">
+        <div class="card-block">
+            <table>
+                <tr>
+                    <td colspan="2">
+                    <img style="margin: 10px 10px 10px 10px;" src="/media/cloudlibrary/headpic/{{ request.session.user.headpic }}"
+                         alt="我的头像" class="img-rounded" />
+
+                    </td>
+                    <td>
+            {#            编辑昵称#}
+                        {% if request.session.user.nickname|length == 0 %}
+                            <label id="nickname-label" style="display: inline;font-size: 12pt;">
+                                <strong># </strong>
+                                <a class="card-title" id="nickname-a">编辑昵称</a>
+                            </label>
+                        {% else %}
+                            <label id="nickname-label" style="display: inline;font-size: 12pt;">
+                                <strong>#</strong>
+                                <a id="nickname-a">{{ request.session.user.nickname }}</a>
+                            </label>
+                        {% endif %}
+            {#            end#}
+                        <label id="nickname-label-edit" style="display: none; font-size: 12pt;">
+                            <input id="nickname-input"/>
+                            <img id="nickname-edit-confirm" src="{% static 'public/image/icon_ok_hover.png' %}"
+                                 style="width: 25px;height: 25px;"/>
+                        </label>
+                        <br />
+                        <label style="font-size: 5pt;margin-top: 5px;">{{ request.session.user.username }}</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+
+                {% if request.session.user.weixin|length == 0 %}
+                    <label id="weixin-label" style="display: inline;">
+                        <strong>微信</strong>
+                        <a id="weixin">编辑微信</a>
+                    </label>
+                {% else %}
+                    <label id="weixin-label" style="display: inline">
+                    <strong>微信</strong>
+                        <a id="weixin">{{ request.session.user.weixin }}</a>
+                    </label>
+                {% endif %}
+                     <label id="weixin-label-edit" style="display: none">
+                         <input class="form-control" id="weixin-input"/>
+                         <button class="btn btn-primary" id="weixin-edit-confirm">确定</button>
+                     </label>
+            </li>
+            <li class="list-group-item">
+
+                {% if request.session.user.qq|length == 0 %}
+                    <label id="qq-label" style="display: inline">
+                        <strong>QQ&nbsp;</strong>
+                        <a id="qq">编辑QQ</a>
+                    </label>
+                {% else %}
+                    <label id="qq-label" style="display: inline">
+                    <strong>QQ&nbsp;</strong>
+                        <a id="qq">{{ request.session.user.qq }}</a>
+                    </label>
+                {% endif %}
+                     <label id="qq-label-edit" style="display: none">
+                     <input class="form-control" id="qq-input"/>
+                     <button class="btn btn-primary" id="qq-edit-confirm">确定</button>
+                     </label>
+            </li>
+            <li class="list-group-item">
+
+                {% if request.session.user.tel|length == 0 %}
+                    <label id="tel-label" style="display: inline">
+                        <strong>电话</strong>
+                        <a id="tel">编辑电话</a>
+                    </label>
+                {% else %}
+                    <label id="tel-label" style="display: inline">
+                    <strong>电话</strong>
+                        <a id="tel">{{ request.session.user.tel }}</a>
+                    </label>
+                {% endif %}
+                     <label id="tel-label-edit" style="display: none">
+                     <input class="form-control" id="tel-input"/>
+                     <button class="btn btn-primary" id="tel-edit-confirm">确定</button>
+                     </label>
+            </li>
+        </ul>
+    </div>
+    </div>
+    </div>
+</div>
+{#以下为引入尾部#}
+{% include "cloudlibrary/includes/_common_foot.html" %}

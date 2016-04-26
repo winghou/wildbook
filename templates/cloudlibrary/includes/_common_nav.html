@@ -1,0 +1,62 @@
+{#导航栏#}
+{% load staticfiles %}
+<script language="javascript" src="{% static 'public/js/jquery.cookie.js' %}"></script>
+<script>
+    var csrftoken = $.cookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+</script>
+<nav class="navbar navbar-light bg-faded navbar-fixed-top" style="-webkit-box-shadow: 0px 2px 3px 0px rgba(100,100,100,0.15);-moz-box-shadow:0px 2px 3px 0px rgba(100,100,100,0.15); -ms-box-shadow:0px 2px 3px 0px rgba(100,100,100,0.15); ">
+        <a style="margin-left: 100px;color: #5e5e5e;" class="navbar-brand" href="{% url 'cloudlibrary:index' %}">
+            <strong>野生书云</strong>
+        </a>
+        <ul class="nav navbar-nav pull-xs-right">
+            <li class="nav-item">
+                <form class="form-inline pull-xs-right" action="{% url 'cloudlibrary:index_search' %}" method="post"
+                      name="search_form">
+                    {% csrf_token %}
+
+                        <input  class="form-control" name="search_input" type="text"
+                               value="{{ request.session.search_input }}"
+                               placeholder="输入搜索内容" />
+                        <button style="text-align:center;" class="btn btn-success-outline" type="submit">搜索</button>
+
+                </form>
+            </li>
+            {% if request.user.username %}
+                <li class="nav-item">
+                <div>
+                    <a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:personinfo' request.session.user.id %}">
+                        <strong># </strong>{{ request.session.user.nickname }}
+                    </a>
+                    <ul id="top-nav-profile-dropdowm" class="top-nav-dropdowm" aria-labelledby=":0">
+                        <li>
+                        <a></a>
+                        </li>
+                        <li>
+                        <a></a>
+                        </li>
+                        <li>
+                        <a></a>
+                        </li>
+                    </ul>
+                </div>
+                </li>
+                <li class="nav-item"><a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_logout' %}">退出</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_login' %}">登录</a></li>
+            {% endif %}
+        </ul>
+</nav>

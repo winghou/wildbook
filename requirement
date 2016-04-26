@@ -1,0 +1,3 @@
+pip install whoosh
+pip install jieba
+pip install django-haystack

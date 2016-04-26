@@ -1,0 +1,69 @@
+{% load staticfiles %}
+{% include "cloudlibrary/includes/_common_head.html" %}
+<link rel="stylesheet" href="{% static 'cloudlibrary/css/add_book.css' %}">
+
+<script language="JavaScript">
+    function before_submit_check() {
+{#        没有联系方式禁止发书#}
+        var tel = "{{ request.session.user.tel }}";
+        var qq = "{{ request.session.user.qq }}";
+        var weixin = "{{ request.session.user.weixin }}";
+        if (tel.trim()=="" && qq.trim()=="" && weixin=="") {
+            alert("请到个人主页至少添加一种联系方式, 以方便别人联系");
+            return false;
+        }
+        var book_name = $("#book_name_input").val();
+        if (book_name.trim() == "") {
+            alert("请至少输入书名");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+{% include "cloudlibrary/includes/_common_head_sec.html" %}
+{% include "cloudlibrary/includes/_common_nav.html" %}
+{#以上为引入头部#}
+{#表单#}
+<form id="add_book_form" name="add_book_form" enctype="multipart/form-data" method="post"
+      onsubmit="return before_submit_check();"
+      class="add-book-from form-horizontal" role="form" action="{% url 'cloudlibrary:deal_add_book' %}">
+    {% csrf_token %}
+    <table class="table-custom">
+        <tbody>
+            <tr>
+                <td id="first-clo-td">
+                    <label for="lastname">书名:</label>
+                </td>
+                <td>
+                    <input type="text" id="book_name_input" class="form-control" name="bookname" placeholder="请输入书名">
+                </td>
+            </tr>
+            <tr>
+                <td id="first-clo-td">
+                   <label for="lastname">描述:</label>
+                </td>
+                <td>
+                    <textarea  class="form-control" rows="3" title="" name="bookdescription" id="book_desc_input"
+                               placeholder="请输入简单描述"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td id="first-clo-td">
+                    <label for="lastname">图片:</label>
+                </td>
+                <td>
+                    <input type="file" id="img_upload_input" name="bookimg" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary" style="width: 500px;">发布</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{#隐藏域#}
+{#以下为引入尾部#}
+{% include "cloudlibrary/includes/_common_foot.html" %}
