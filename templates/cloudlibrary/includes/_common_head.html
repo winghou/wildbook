@@ -3,19 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>野生书云</title>
+{#        响应式#}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% load staticfiles %}
-{#        <script src="{% static 'public/js/jquery-1.12.3.min.js' %}"></script>#}
-        <script src="http://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
-        <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-{#        <script src="{% static 'public/js/bootstrap.min-3.3.5.js' %}"></script>#}
-{#        <link rel="stylesheet" href="{% static 'public/css/bootstrap.min-3.3.5.css' %}">#}
-{#        <link rel="stylesheet" href="{% static 'public/css/bootstrap-theme.min-3.3.5.css' %}">#}
-        <link rel="stylesheet" href="{% static 'dist/css/bootstrap-min.css' %}">
-{#        <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" rel="stylesheet">#}
-        <link rel="stylesheet" href="{% static 'dist/css/slim-min.css' %}">
-        <link rel="stylesheet" href="{% static 'cloudlibrary/css/nav.css' %}">
-        <link rel="stylesheet" href="{% static 'cloudlibrary/css/common.css' %}">
+{#        引入静态css文件#}
+        <link rel="stylesheet" href="{% static 'public/css/bootstrap.min-3.3.5.css' %}" />
+        <link rel="stylesheet" href="{% static 'public/css/bootstrap-theme.min-3.3.5.css' %}" />
+{#        引入全局的css#}
+        <link rel="stylesheet" href="{% static 'cloudlibrary/css/common.css' %}" />
 
+{#        设置网站图标#}
         <link href="{% static 'public/image/head-icon.ico' %}" rel="bookmark" type="image/x-icon" />
         <link href="{% static 'public/image/head-icon.ico' %}" rel="icon" type="image/x-icon" />
         <link href="{% static 'public/image/head-icon.ico' %}" rel="shortcut icon" type="image/x-icon" />

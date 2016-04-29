@@ -1,3 +1,5 @@
-h1, h2, h3, h4, h5, h6, label, p, span {
-    color: #0f0f0f;
+@charset "utf-8";
+body {
+    /*使用bootstrap的固定导航栏, 需要添加body的内补, 以防止导航栏掩盖内容*/
+    padding-top: 70px;
 }

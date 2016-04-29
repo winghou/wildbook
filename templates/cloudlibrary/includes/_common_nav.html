@@ -1,61 +1,49 @@
 {#导航栏#}
-{% load staticfiles %}
-<script language="javascript" src="{% static 'public/js/jquery.cookie.js' %}"></script>
-<script>
-    var csrftoken = $.cookie('csrftoken');
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-</script>
-<nav class="navbar navbar-light bg-faded navbar-fixed-top"
-     style="-webkit-box-shadow: 0 2px 3px 0 rgba(100,100,100,0.15);-moz-box-shadow:0 2px 3px 0 rgba(100,100,100,0.15);
-     -ms-box-shadow:0 2px 3px 0 rgba(100,100,100,0.15); border-bottom: 1px solid #ddd;">
-        <a style="margin-left: 100px;color: #5e5e5e;" class="navbar-brand" href="{% url 'cloudlibrary:index' %}">
-            <strong>野生书云</strong>
-        </a>
-        <ul class="nav navbar-nav pull-xs-right">
-            <li class="nav-item">
-                <form class="form-inline pull-xs-right" action="{% url 'cloudlibrary:index_search' %}" method="post"
-                      name="search_form">
-                    {% csrf_token %}
-
-                        <input  class="form-control" name="search_input" type="text" style="margin-top: 2px;"
-                               value="{{ request.session.search_input }}"
-                               placeholder="输入搜索内容" />
-                        <button style="text-align:center; margin-top: 2px;" class="btn btn-success-outline" type="submit">搜索</button>
-
+<nav class="navbar navbar-default navbar-fixed-top container-fluid">
+{#      网站图标/名称#}
+    <div class="navbar-header" style="">
+        <a class="navbar-brand col-md-offset-5" href="#">野生书云</a>
+    </div>
+{#    未登录用户的导航栏#}
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="输入搜索内容...">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
                 </form>
             </li>
-            {% if request.user.username %}
-                <li class="nav-item">
-                <div>
-                    <a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:personinfo' request.session.user.id %}">
-                        <strong># </strong>{{ request.session.user.nickname }}
-                    </a>
-                    <ul id="top-nav-profile-dropdowm" class="top-nav-dropdowm" aria-labelledby=":0">
-                        <li>
-                        <a>我的主页</a>
-                        </li>
-                        <li>
-                        <a>退出</a>
-                        </li>
-                    </ul>
-                </div>
-                </li>
-{#                <li class="nav-item"><a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_logout' %}">退出</a></li>#}
-{#            {% else %}#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_login' %}">登录</a></li>#}
-            {% endif %}
+            <li><a href="#">我要发布</a></li>
+            <li><a href="#">登陆</a></li>
         </ul>
+    </div>
+
+{#    登陆用户的导航栏#}
+
+{#    <div class="navbar-collapse collapse">#}
+{#        <ul class="nav navbar-nav navbar-right">#}
+{#            <li>#}
+{#                <form class="navbar-form navbar-left">#}
+{#                    <div class="form-group">#}
+{#                        <input type="text" class="form-control" placeholder="输入搜索内容...">#}
+{#                    </div>#}
+{#                    <button type="submit" class="btn btn-default">搜索</button>#}
+{#                </form>#}
+{#            </li>#}
+{#            <li><a href="#">我要发布</a></li>#}
+{#            <li class="dropdown">#}
+{#                <a href="#" class="dropdown-toggle" data-toggle="dropdown">bovenson<b class="caret"></b></a>#}
+{#                <ul class="dropdown-menu">#}
+{#                    <li><a href="#">我的主页</a></li>#}
+{#                    <li><a href="#">退出</a></li>#}
+{#                    <li class="divider"></li>#}
+{#                    <li><a href="#">分离的链接</a></li>#}
+{#                    <li class="divider"></li>#}
+{#                    <li><a href="#">另一个分离的链接</a></li>#}
+{#                </ul>#}
+{#            </li>#}
+{#        </ul>#}
+{#    </div>#}
 </nav>

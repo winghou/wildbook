@@ -1,3 +1,10 @@
-<div style="margin-top: 50px"></div>
-</body>
+
+{#在body最后引入js文件#}
+{% load staticfiles %}
+{#    引入jQuey#}
+    <script src="{% static 'public/js/jquery-1.12.3.min.js' %}"></script>
+    <script src="{% static 'public/js/jquery.cookie.js' %}"></script>
+{#    bootsrap js 文件#}
+    <script src="{% static 'public/js/bootstrap.min-3.3.5.js' %}"></script>
+    </body>
 </html>
