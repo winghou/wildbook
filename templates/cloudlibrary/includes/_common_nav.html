@@ -43,22 +43,19 @@
                     </a>
                     <ul id="top-nav-profile-dropdowm" class="top-nav-dropdowm" aria-labelledby=":0">
                         <li>
-                        <a></a>
+                        <a>我的主页</a>
                         </li>
                         <li>
-                        <a></a>
-                        </li>
-                        <li>
-                        <a></a>
+                        <a>退出</a>
                         </li>
                     </ul>
                 </div>
                 </li>
-                <li class="nav-item"><a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_logout' %}">退出</a></li>
-            {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_login' %}">登录</a></li>
+{#                <li class="nav-item"><a style="color: #1f2125;" class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>#}
+{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_logout' %}">退出</a></li>#}
+{#            {% else %}#}
+{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:addbook' %}">我要发布</a></li>#}
+{#                <li class="nav-item"><a class="nav-link" href="{% url 'cloudlibrary:wild_login' %}">登录</a></li>#}
             {% endif %}
         </ul>
 </nav>
