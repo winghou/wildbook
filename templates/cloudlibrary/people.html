@@ -9,7 +9,7 @@
 
 <div class="container-fluid">
 {#    个人信息#}
-    <div class="col-lg-4 col-md-4 col-sm-4 col-md-push-8 col-lg-push-8 col-sm-push-8 col-xs-6">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-md-push-8 col-lg-push-8 col-sm-push-8 col-xs-11">
 {#    显示个人信息的div #}
         <div class="row clearfix visible-lg visible-md visible-sm" style="height: 70px;"></div>
         <div class="col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
@@ -24,9 +24,9 @@
                             <a id="a_edit_nickname">{{ request.session.user.nickname }}</a>
                         </div>
                         <div id="div_edit_nickname" style="display: none;">
-                            <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-sx-8"
+                            <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
                                    id="input_nickname" placeholder="输入昵称" />
-                            <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-sx-4"
+                            <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                                     id="button_confirm_nickname" >确定</button>
                         </div>
                     {% else %}
@@ -111,13 +111,13 @@
         </div>
         <div class="clearfix" style="height: 8px;"></div>
         {% for book in books %}
-            <div class="row" id="{{ book.id }}">
-                <div class="col-md-9 col-md-offset-1 col-sm-9 col-xs-12" style="background-color: #f0f0f0;">
+            <div class="row" id="{{ book.id }}" style="background-color: #f0f0f0;" >
+                <div class="col-lg-6 col-md-6 col-sm-8 col-sm-12">
                     <img src="{{ book.pic }}" alt="图书"
-                         class="img-rounded col-md-3 col-sm-3 col-xs-3 col-lg-3"
+                         class="img-rounded col-lg-3 col-md-3 col-sm-3 col-xs-4"
                          style="margin: 10px 0;min-width: 80px;min-height: 140px;"
                     />
-                    <div class="col-md-9 col-sm-9 col-xs-9 col-lg-9">
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
                         <div class="row">
                             <a class="pull-left"><h4>{{ book.name }}</h4></a>
 {#                            如果当前用户可以编辑#}
