@@ -1,8 +1,11 @@
+import re
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage
 from django.http import JsonResponse
 from django.shortcuts import render
-from cloudlibrary.STATIC_VARS import MAX_LEN_QQ, MAX_LEN_TEL, MAX_LEN_WEIXIN, MAX_LEN_NICKNAME
+
+from cloudlibrary.public.validate import validate_qq, validate_tel, validate_weixin, validate_user_info
+from cloudlibrary.static_vars import MAX_LEN_QQ, MAX_LEN_TEL, MAX_LEN_WEIXIN, MAX_LEN_NICKNAME
 from cloudlibrary.models import WildUser, WildBook
 from cloudlibrary.view.operations import save_user_to_session
 
@@ -59,10 +62,12 @@ def person_info(request, uid=None, page=1):
 
         if request.user.id == data_cont["viewuser"].id:
             # print("是本用户,返回可以编辑的")
-            return render(request, "cloudlibrary/people_can_edit.html", data_cont)
+            data_cont["can_edit"] = True
         else:
             # print("不是本用户,返回不可以编辑的")
-            return render(request, "cloudlibrary/people_can_not_edit.html", data_cont)
+            data_cont["can_edit"] = False
+            pass
+        return render(request, "cloudlibrary/people.html", data_cont)
         pass
     except:
         import traceback
@@ -92,41 +97,49 @@ def edit_person(request):
 
     cont_data = {}
 
-    # 从POST过来的数据中提取数据
-    nickname = request.POST.get('nickname')
-    if nickname is None or nickname.strip() == "":
-        nickname = ""
-    qq = request.POST.get('qq')
-    if qq is None or qq.strip() == "":
-        qq = ""
-    tel = request.POST.get('tel')
-    if tel is None or tel.strip() == "":
-        tel = ""
-    weixin = request.POST.get('weixin')
-    if weixin is None or weixin.strip() == "":
-        weixin = ""
-    # 判断, 不可以太长
-    if qq is not None and len(qq) > MAX_LEN_QQ:
-        cont_data["res"] = "error"
-        cont_data["msg"] = "QQ号码过长"
-        return JsonResponse(cont_data)
-        pass
-    if tel is not None and len(tel) > MAX_LEN_TEL:
-        cont_data["res"] = "error"
-        cont_data["msg"] = "电话号码过长"
-        return JsonResponse(cont_data)
-        pass
-    if weixin is not None and len(weixin) > MAX_LEN_WEIXIN:
-        cont_data["res"] = "error"
-        cont_data["msg"] = "微信号码过长"
-        return JsonResponse(cont_data)
-        pass
-    if nickname is not None and len(nickname) > MAX_LEN_NICKNAME:
-        cont_data["res"] = "error"
-        cont_data["msg"] = "昵称过长"
-        return JsonResponse(cont_data)
-        pass
     try:
+        # 从POST过来的数据中提取数据
+        # print(request.POST)
+        nickname = request.POST.get('nickname')
+        if nickname is None:
+            nickname = nickname.strip()
+        qq = request.POST.get('qq')
+        if qq is None:
+            qq = qq.strip()
+        tel = request.POST.get('tel')
+        if tel is None:
+            tel = tel.strip()
+        weixin = request.POST.get('weixin')
+        if weixin is None:
+            weixin = weixin.strip()
+        # 判断, 不可以太长
+        if not validate_qq(qq):
+            cont_data["res"] = "error"
+            cont_data["msg"] = "请输入正确的QQ号码"
+            raise Exception()
+            pass
+        if not validate_tel(tel):
+            cont_data["res"] = "error"
+            cont_data["msg"] = "请输入正确的手机号码"
+            raise Exception()
+            pass
+        if not validate_weixin(weixin):
+            cont_data["res"] = "error"
+            cont_data["msg"] = "微信格式不正确,微信帐号支持6-20个字母、数字、下划线和减号，必须以字母开头"
+            raise Exception()
+            pass
+        if nickname is not None and len(nickname) > MAX_LEN_NICKNAME:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "昵称过长(" + str(MAX_LEN_NICKNAME) + "字内)"
+            raise Exception()
+            pass
+        if nickname is not None and len(nickname) == 0:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "昵称不能为空"
+            raise Exception()
+            pass
+
+        # 尝试保存用户
         # 得到用户
         user = WildUser.objects.get(id=request.user.id)
         # 更新数据
@@ -137,10 +150,17 @@ def edit_person(request):
         user.save()
         pass
     except Exception as e:
-        print("更新用户信息时出错: ", e)
         pass
     else:
         # 更新session中的用户数据
         save_user_to_session(request)
         pass
+
+    # 得到最新的用户信息
+    user = WildUser.objects.get(id=request.user.id)
+    cont_data["tel"] = user.tel
+    cont_data["nickname"] = user.nickname
+    cont_data["qq"] = user.qq
+    cont_data["weixin"] = user.weixin
+
     return JsonResponse(cont_data)

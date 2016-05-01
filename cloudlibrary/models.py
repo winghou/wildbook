@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 
 
 class WildUser(User):
-    qq = models.CharField(max_length=12, default="")
-    tel = models.CharField(max_length=12, default="")
+    qq = models.CharField(max_length=13, default="")
+    tel = models.CharField(max_length=15, default="")
     weixin = models.CharField(max_length=30, default="")
     nickname = models.CharField(max_length=30, default="")
     headpic = models.CharField(max_length=50, default="icon_default_head.jpg")
@@ -38,9 +38,9 @@ class WildUser(User):
 
 
 class WildBook(models.Model):
-    name = models.CharField(max_length=50, default="未知")
-    description = models.CharField(max_length=200, default="")
-    pic = models.CharField(max_length=50, default="default_book_pic.gif")
+    name = models.CharField(max_length=45, default="未知")
+    description = models.CharField(max_length=205, default="")
+    pic = models.CharField(max_length=80, default="default_book_pic.gif")
     owner = models.ForeignKey(WildUser, default=0)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class WildBook(models.Model):
 
 class WildBookHistory(models.Model):
     """保存发布的图书的记录"""
-    name = models.CharField(max_length=50, default="未知")
+    name = models.CharField(max_length=45, default="未知")
     description = models.CharField(max_length=200, default="")
     owner = models.IntegerField(null=True)
     time = models.DateTimeField(auto_now_add=True)

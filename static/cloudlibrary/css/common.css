@@ -3,3 +3,30 @@ body {
     /*使用bootstrap的固定导航栏, 需要添加body的内补, 以防止导航栏掩盖内容*/
     padding-top: 70px;
 }
+
+a, a:hover ,a:active, a:visited, a:link {
+    text-decoration: none;
+}
+/*文字换行*/
+label, a{
+    word-wrap: break-word;
+    word-break: normal;
+    overflow: hidden;
+}
+table, tr, td{
+    word-wrap : break-word;
+    table-layout:fixed;
+    overflow: hidden;
+}
+p, h5, h4, h3, h2, h1{
+    word-wrap : break-word;
+    word-break: break-all;
+    overflow: hidden;
+}
+/*DEBUG*/
+/*a, div, span, table, ul, li , img{*/
+    /*border: solid 1px;*/
+/*}*/
+/*tr, td, a, p{*/
+    /*border: solid 1px;*/
+/*}*/

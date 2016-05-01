@@ -1,0 +1,201 @@
+{% load staticfiles %}
+{% include "cloudlibrary/includes/_common_head.html" %}
+{#在这里加载/编写自己的js/css#}
+<link rel="stylesheet" href="{% static 'cloudlibrary/css/people.css' %}"/>
+{% include "cloudlibrary/includes/_common_head_sec.html" %}
+{% include "cloudlibrary/includes/_common_nav.html" %}
+{#以上为引入头部#}
+
+
+<div class="container-fluid">
+{#    个人信息#}
+    <div class="col-lg-4 col-md-4 col-sm-4 col-md-push-8 col-lg-push-8 col-sm-push-8 col-xs-6">
+{#    显示个人信息的div #}
+        <div class="row clearfix visible-lg visible-md visible-sm" style="height: 70px;"></div>
+        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
+        <div class="row people-info-top">
+            <img src="{% static 'public/image/icon_default_head.jpg' %}"
+                 class="col-lg-3 col-md-3 col-sm-5 col-xs-4" />
+            <div class="col-lg-9 col-md-9 col-sm-7 col-xs-8">
+{#                昵称#}
+                <div class="row">
+                    {% if can_edit %}
+                        <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
+                            <a id="a_edit_nickname">{{ request.session.user.nickname }}</a>
+                        </div>
+                        <div id="div_edit_nickname" style="display: none;">
+                            <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-sx-8"
+                                   id="input_nickname" placeholder="输入昵称" />
+                            <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-sx-4"
+                                    id="button_confirm_nickname" >确定</button>
+                        </div>
+                    {% else %}
+                        <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
+                            <span>{{ request.session.user.nickname }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if can_edit %}
+                    <div class="row">
+                       <span>{{ request.session.user.username }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+{#        微信#}
+        <div class="row people-info-mid">
+{#            如果可以编辑才加载#}
+            {% if can_edit %}
+                <div id="div_show_weixin" style="font-size: 14px;">
+                    <span>微信</span>
+                    <a id="a_edit_weixin">{{ request.session.user.weixin }}</a>
+                </div>
+                <div id="div_edit_weixin" style="display: none;">
+                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_weixin" placeholder="输入微信" />
+                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_weixin" >确定</button>
+                </div>
+            {% else %}
+                <div id="div_show_weixin" style="font-size: 14px;">
+                    <span>微信</span>
+                    <span style="color: #5e5e5e;">{{ request.session.user.weixin }}</span>
+                </div>
+            {% endif %}
+        </div>
+
+{#        qq#}
+        <div class="row people-info-mid">
+{#            如果可以编辑才加载#}
+            {% if can_edit %}
+                <div id="div_show_qq" style="font-size: 14px;">
+                    <span>QQ&nbsp;</span>
+                    <a id="a_edit_qq">{{ request.session.user.qq }}</a>
+                </div>
+                <div id="div_edit_qq" style="display: none;">
+                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_qq" placeholder="输入QQ" />
+                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_qq" >确定</button>
+                </div>
+            {% else %}
+                <div id="div_show_qq" style="font-size: 14px;">
+                    <span>QQ&nbsp;</span>
+                    <span style="color: #5e5e5e;">{{ request.session.user.qq }}</span>
+                </div>
+            {% endif %}
+        </div>
+
+{#        电话#}
+        <div class="row people-info-bottom">
+            {% if can_edit %}
+                <div id="div_show_tel" style="font-size: 14px;">
+                    <span>电话</span>
+                    <a id="a_edit_tel">{{ request.session.user.tel }}</a>
+                </div>
+                <div id="div_edit_tel" style="display: none;">
+                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_tel" placeholder="输入电话" />
+                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_tel" >确定</button>
+                </div>
+            {% else %}
+                <div id="div_show_tel" style="font-size: 14px;">
+                    <span>电话</span>
+                    <span style="color: #5e5e5e;">{{ request.session.user.tel }}</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+{#    书#}
+    <div class="col-lg-8 col-md-8 col-sm-8 col-md-pull-4 col-lg-pull-4 col-sm-pull-4 col-xs-12">
+{#    书架标签#}
+        <div class="row">
+            <h2 class="col-md-offset-1">我的书架</h2>
+        </div>
+        <div class="clearfix" style="height: 8px;"></div>
+        {% for book in books %}
+            <div class="row" id="{{ book.id }}">
+                <div class="col-md-9 col-md-offset-1 col-sm-9 col-xs-12" style="background-color: #f0f0f0;">
+                    <img src="{{ book.pic }}" alt="图书"
+                         class="img-rounded col-md-3 col-sm-3 col-xs-3 col-lg-3"
+                         style="margin: 10px 0;min-width: 80px;min-height: 140px;"
+                    />
+                    <div class="col-md-9 col-sm-9 col-xs-9 col-lg-9">
+                        <div class="row">
+                            <a class="pull-left"><h4>{{ book.name }}</h4></a>
+{#                            如果当前用户可以编辑#}
+                            {% if can_edit %}
+                                <button class="btn btn-success-outline pull-right" onclick="delete_book(this)"
+                                        style="margin: 5px 0;" id="{{ book.id }}" name="{{ book.name }}">下架</button>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <p>{{ book.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix" id="clearfix{{ book.id }}" style="margin-bottom: 30px;"></div>
+        {% endfor %}
+        {% if page_last != 1 %}
+        {#分页#}
+        <div class="container-fluid">
+            <nav class="center-block text-center">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page_first %}" aria-label="Previous">
+                      <span aria-hidden="true">ι«</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                {% if page1st > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page1st %}">{{ page1st }}</a>
+                    </li>
+                {% endif %}
+                {% if page2ed > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page2ed %}">{{ page2ed }}</a>
+                    </li>
+                {% endif %}
+                {% if page3th > 0 %}
+                    <li class="page-item">
+                    <a class="page-link" style="background-color: #adadad;" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page3th %}">
+                        {{ page3th }}
+                    </a>
+                    </li>
+                {% endif %}
+                {% if page4th > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page4th %}">{{ page4th }}</a>
+                    </li>
+                {% endif %}
+                {% if page5th > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page5th %}">{{ page5th }}</a>
+                    </li>
+                {% endif %}
+                  <li class="page-item">
+                    <a class="page-link" href="{% url 'cloudlibrary:person_info_with_page' viewuser.id page_last %}" aria-label="Next">
+                      <span aria-hidden="true">»ι</span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+            </nav>
+        </div>
+        {#分页 end#}
+        {% endif %}
+    </div>
+</div>
+
+<form>{% csrf_token %}</form>
+{#引入模态提示框#}
+{% include "cloudlibrary/includes/_common_modal_second.html" %}
+{% include "cloudlibrary/includes/_common_modal_alert.html" %}
+{#引入依赖js#}
+{% include "cloudlibrary/includes/_common_foot_before.html" %}
+{#自己写的js在这里加载/编写#}
+{#可编辑才加载相应js#}
+{% if can_edit %}
+    <script src="{% static 'cloudlibrary/js/people.js' %}"></script>
+{% endif %}
+{#以下为引入尾部#}
+{% include "cloudlibrary/includes/_common_foot.html" %}

@@ -1,13 +1,10 @@
 {% load staticfiles %}
 {% include "cloudlibrary/includes/_common_head.html" %}
-<title xmlns="http://www.w3.org/1999/html">{{ user.title }}</title>
-<link rel="stylesheet" href="{% static 'cloudlibrary/css/index.css' %}">
 {% include "cloudlibrary/includes/_common_head_sec.html" %}
-
 {% include "cloudlibrary/includes/_common_nav.html" %}
 {#以上为引入头部#}
 
-<div class="container" style="margin-top: 100px;">
+{#如果没找到图书#}
 {% if not books %}
     <div  class="" style="text-align: center;">
         <img src="{% static 'public/image/book_not_found.gif' %}"/>
@@ -15,72 +12,87 @@
     </div>
 {% else %}
     {#显示商品信息的div#}
-    <div class="booksail center-block" style="padding:20px;width: 728px;">
-            {% for book in books %}
-            <table style="background-color: #f0f0f0">
-                <tr>
-                    <td>
-                        <img style="width: 120px;height: 170px;" src="{{ book.pic }}" class="img-rounded"/>
-                    </td>
-                    <td  class="bookdetail">
-                        <div>
-                            <a style="font-size: 12px;" href="{% url 'cloudlibrary:personinfo' book.owner.id %}"># {{ book.owner.username }}</a>
-                            <h6 style="font-weight: bolder;">{{ book.name }}</h6>
-                            <p class="bookdetail-bookname">{{ book.description }}</p>
+    <div class="container">
+        {% for book in books %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12" style="background-color: #f0f0f0;">
+                    <img src="{{ book.pic }}" alt="图片加载失败..."
+                         class="img-rounded col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                         style="margin: 15px 0; padding-right: 15px;min-width: 80px;min-height: 150px;"
+                    />
+                    <div class="col-md-9 col-sm-9 col-xs-9 col-lg-9"
+                         style="margin: 15px 0;" >
+                        <div class="row">
+                            <a href="{% url 'cloudlibrary:person_info' book.owner.id %}">{{ book.owner.nickname }}</a>
                         </div>
-                    </td>
-                </tr>
-            </table>
-            <br />
-            {% endfor %}
+                        <div class="row">
+                            <a href="#"><h4>{{ book.name }}</h4></a>
+                        </div>
+                        <div class="row">
+                            <p>{{ book.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix" style="margin-bottom: 30px;"></div>
+        {% endfor %}
     </div>
-    </div>
-    {# 分页 #}
-    <div style="margin-left: 40%;">
-    <nav>
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page_first %}" aria-label="Previous">
-              <span aria-hidden="true">«</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-        {% if page1st > 0 %}
-            <li class="page-item">
-              <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page1st %}">{{ page1st }}</a>
-            </li>
-        {% endif %}
-        {% if page2ed > 0 %}
-            <li class="page-item">
-              <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page2ed %}">{{ page2ed }}</a>
-            </li>
-        {% endif %}
-        {% if page3th > 0 %}
-            <li class="page-item">
-              <a class="page-link" style="background-color: #adadad;" href="{% url 'cloudlibrary:index_search_with_page' page3th %}">{{ page3th }}</a>
-            </li>
-        {% endif %}
-        {% if page4th > 0 %}
-            <li class="page-item">
-              <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page4th %}">{{ page4th }}</a>
-            </li>
-        {% endif %}
-        {% if page5th > 0 %}
-            <li class="page-item">
-              <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page5th %}">{{ page5th }}</a>
-            </li>
-        {% endif %}
-          <li class="page-item">
-            <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page_last %}" aria-label="Next">
-              <span aria-hidden="true">»</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-    </nav>
-{% endif %}
-</div>
 
+    {% if page_last != 1 %}
+        {#分页#}
+        <div class="container-fluid text-center">
+            <nav class="center-block">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page_first %}" aria-label="Previous">
+                            <span aria-hidden="true">ι«</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% if page1st > 0 %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="{% url 'cloudlibrary:index_search_with_page' page1st %}">{{ page1st }}
+                      </a>
+                    </li>
+                {% endif %}
+                {% if page2ed > 0 %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="{% url 'cloudlibrary:index_search_with_page' page2ed %}">{{ page2ed }}
+                      </a>
+                    </li>
+                {% endif %}
+                {% if page3th > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" style="background-color: #adadad;" href="{% url 'cloudlibrary:index_search_with_page' page3th %}">{{ page3th }}</a>
+                    </li>
+                {% endif %}
+                {% if page4th > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page4th %}">{{ page4th }}</a>
+                    </li>
+                {% endif %}
+                {% if page5th > 0 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page5th %}">{{ page5th }}</a>
+                    </li>
+                {% endif %}
+                  <li class="page-item">
+                    <a class="page-link" href="{% url 'cloudlibrary:index_search_with_page' page_last %}" aria-label="Next">
+                      <span aria-hidden="true">»ι</span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+{% endif %}
+
+
+{#引入依赖js#}
+{% include "cloudlibrary/includes/_common_foot_before.html" %}
 
 {#以下为引入尾部#}
 {% include "cloudlibrary/includes/_common_foot.html" %}

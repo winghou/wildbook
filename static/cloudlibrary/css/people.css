@@ -1,101 +1,29 @@
-label, a{
-    word-wrap: break-word;
-    word-break: normal;
-    overflow: hidden;
+.div-person-info {
+    /*position: fixed;*/
+    background-color: #f0f0f0;
 }
-
-table {
-    word-wrap : break-word;
-    table-layout:fixed;
-    overflow: hidden;
+.div-person-info button {
+    height: 26px;
+    padding: 0 2px;
 }
-p, h5{
-    word-wrap : break-word;
-    word-break: break-all;
-    overflow: hidden;
+.people-info-top {
+    border: solid 1px #f0f0f0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 15px 0;
 }
-.people-info {
-    margin-top: 30px;
-    padding: 0 0 30px 12px;
-    border: 1px solid #666;
-    border-radius: 5px;
-    width: 30%;
-    margin-left: 20%;
-    font-weight: 400;
-    font-size: 13px;
-    color: #666;
+.people-info-mid {
+    border-left: solid 1px #f0f0f0;
+    border-right: solid 1px #f0f0f0;
+    border-bottom: solid 1px #f0f0f0;
+    padding: 6px 6px 6px 15px;
+    height: 40px;
 }
-
-.people-info-head-pic img {
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-}
-
-.people-info-detail img {
-    width: 15px;
-    height: 15px;
-    margin: 5px 5px;
-}
-
-
-
-.people-info tr, td {
-    height: 15px;
-    line-height: 15px;
-}
-
-.people-info-detail p {
-    margin: 6px 2px;
-}
-
-.nickname {
-    margin: 10px 5px;
-    font-size: 20px;
-    color: #000;
-    vertical-align: middle;
-}
-
-.nickname p{
-    display: inline;
-}
-
-.nickname button{
-    margin-right: 0;
-    font-size: 10px;
-    float: right;
-}
-
-
-.booksail {
-}
-.booksail img {
-    width: 200px;
-    height: 280px;
-    padding: 15px;
-}
-
-.bookdetail {
-    padding: 20px;
-    width: 500px;
-    vertical-align: top;
-}
-
-.del-book {
-    float: left;
-}
-
-#del_book {
-    margin: 15px;
-    width: 50px;
-}
-
-.people-info-detail a:hover{
-    text-decoration: none;
-}
-.nickname a {
-    color: #0f0f0f;
-}
-.nickname a:hover {
-    text-decoration: none;
+.people-info-bottom {
+    border-left: solid 1px #f0f0f0;
+    border-right: solid 1px #f0f0f0;
+    border-bottom: solid 1px #f0f0f0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 6px 6px 15px 15px;
 }

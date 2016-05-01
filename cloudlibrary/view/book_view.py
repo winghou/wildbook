@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotModified, JsonResponse, Http404
 from django.shortcuts import render
 
-from cloudlibrary.STATIC_VARS import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME
+from cloudlibrary.static_vars import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME, MAX_LEN_DESCRIPTION
 from cloudlibrary.models import WildBook, WildUser, WildBookHistory
 from cloudlibrary.public.qiniu import save_file_to_qiniu, del_pic_from_qiniu
 from wildteam import settings
@@ -56,7 +56,8 @@ def del_book(request):
         book.delete()
         # 从七牛删除相应图片
         try:
-            del_pic_from_qiniu(book.pic)
+            if img_path.find(DEFAULT_PIC_NAME) < 0:
+                del_pic_from_qiniu(book.pic)
             pass
         except Exception as e:
             print("从七牛删除图片时出错:", e)
@@ -112,13 +113,14 @@ def deal_add_book(request):
         book.description = request.POST.get("bookdescription")
         imgs = request.FILES.getlist('bookimg')
         book.owner = WildUser.objects.get(id=request.user.id)
+        # print(book.name, "len:", len(book.name))
         if len(book.name) > MAX_LEN_BOOK_NAME:
             cont_data["msg"] = "发布失败,题目过长"
-            raise Exception("题目太长")
+            raise Exception("题目太长(" + str(MAX_LEN_BOOK_NAME) + "字内")
             pass
-        if len(book.description) > 190:
+        if len(book.description) > MAX_LEN_DESCRIPTION:
             cont_data["msg"] = "发布失败,描述过长"
-            raise Exception("描述过长")
+            raise Exception("描述过长(" + str(MAX_LEN_DESCRIPTION) + "字内")
             pass
         for img in imgs:
             content_type = str(img.name).split('.')[-1]

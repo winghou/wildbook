@@ -38,5 +38,5 @@ if settings.DEBUG:
 
 
 urlpatterns += [
-    url(r'', include(cloudlibrary.urls, namespace="cloudlibrary"))
+    url(r'', include(cloudlibrary.urls, namespace="cloudlibrary")),
 ]

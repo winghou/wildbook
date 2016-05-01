@@ -7,14 +7,8 @@ from cloudlibrary.models import WildBook
 
 
 def index(request, page=1):
-    try:
+    if isinstance(page, str):
         page = int(page)
-        if page < 1:
-            page = 1
-    except Exception as e:
-        print(e)
-        page = 1
-
     # 得到需要显示的所有图书
     books = WildBook.objects.all().order_by("-id")
 
@@ -35,7 +29,6 @@ def index(request, page=1):
         books_cur_page = book_page_list.page(1)
         page = 1
         pass
-    # 设置下一页
     data_content = {"books": books_cur_page,
                     "page1st": page - 2,
                     "page2ed": page - 1,
