@@ -8,10 +8,10 @@
 {#书云标题与口号#}
 <div class="clearfix" style="margin-bottom: 30px;"></div>
 <div class="container-fluid">
-    <h1 class="text-center">书</h1>
-    <h1 class="text-center">云</h1>
+    <h1 class="text-center"><a href="{% url 'cloudlibrary:index' %}">书</a></h1>
+    <h1 class="text-center"><a href="{% url 'cloudlibrary:index' %}">云</a></h1>
     <div class="clearfix" style="height: 20px;"></div>
-    <p class="text-center">与你爱的人分享你所爱</p>
+    <p class="text-center">分享 · 收获</p>
 </div>
 <div class="clearfix" style="margin-bottom: 30px;"></div>
 
@@ -24,60 +24,64 @@
 <div class="clearfix" style="margin-bottom: 30px;"></div>
 
 {#登陆框#}
-<div class="container col-lg-4 col-md-4 col-sm-6 col-xs-10 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1"
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-10 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1"
      id="div_login">
-    <form>
-        {% csrf_token %}
-        <table class="table table-bordered">
-            <tr>
-                <td style="padding: 0;">
-                    <input type="text" class="form-control" id="input_login_username"
-                           style="border: none;"
-                           placeholder="请输入邮箱/用户名" />
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0;">
-                    <input type="password" class="form-control" id="input_login_password"
-                           style="border: none;"
-                           placeholder="请输入密码" />
-                </td>
-            </tr>
-        </table>
-        <button type="button" id="button_login_confirm" class="btn btn-default center-block" style="width: 80%;">登陆</button>
-    </form>
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+        <form>
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <tr>
+                    <td style="padding: 0;">
+                        <input type="text" class="form-control" id="input_login_username"
+                               style="border: none;"
+                               placeholder="请输入邮箱/用户名" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0;">
+                        <input type="password" class="form-control" id="input_login_password"
+                               style="border: none;"
+                               placeholder="请输入密码" />
+                    </td>
+                </tr>
+            </table>
+            <button type="button" id="button_login_confirm" class="btn btn-default center-block" style="width: 80%;">登陆</button>
+        </form>
+    </div>
 </div>
 
 {#注册框#}
 <div class="container col-lg-4 col-md-4 col-sm-6 col-xs-10 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1"
      style="display: none;" id="div_register">
-    <form>
-        {% csrf_token %}
-        <table class="table table-bordered">
-            <tr>
-                <td style="padding: 0;">
-                    <input type="text" class="form-control" id="input_register_username"
-                           style="border: none;"
-                           placeholder="请输入邮箱" />
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0;">
-                    <input type="password" class="form-control" id="input_register_password"
-                           style="border: none;"
-                           placeholder="请输入密码" />
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0;">
-                    <input type="password" class="form-control" id="input_register_password_repeat"
-                           style="border: none;"
-                           placeholder="请确认密码" />
-                </td>
-            </tr>
-        </table>
-        <button type="button" id="button_register_confirm" class="btn btn-default center-block" style="width: 80%;">注册</button>
-    </form>
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+        <form>
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <tr>
+                    <td style="padding: 0;">
+                        <input type="text" class="form-control" id="input_register_username"
+                               style="border: none;"
+                               placeholder="请输入邮箱" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0;">
+                        <input type="password" class="form-control" id="input_register_password"
+                               style="border: none;"
+                               placeholder="请输入密码" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0;">
+                        <input type="password" class="form-control" id="input_register_password_repeat"
+                               style="border: none;"
+                               placeholder="请确认密码" />
+                    </td>
+                </tr>
+            </table>
+            <button type="button" id="button_register_confirm" class="btn btn-default center-block" style="width: 80%;">注册</button>
+        </form>
+    </div>
 </div>
 
 {#引入模态提示框#}

@@ -6,9 +6,14 @@
 {#        响应式#}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% load staticfiles %}
+
 {#        引入静态css文件#}
-        <link rel="stylesheet" href="{% static 'public/css/bootstrap.min-3.3.5.css' %}" />
-        <link rel="stylesheet" href="{% static 'public/css/bootstrap-theme.min-3.3.5.css' %}" />
+{#        <link rel="stylesheet" href="{% static 'public/css/bootstrap.min-3.3.5.css' %}" />#}
+{#        <link rel="stylesheet" href="{% static 'public/css/bootstrap-theme.min-3.3.5.css' %}" />#}
+{#        免费CDN加速#}
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css" />
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+
 {#        引入全局的css#}
         <link rel="stylesheet" href="{% static 'cloudlibrary/css/common.css' %}" />
 
