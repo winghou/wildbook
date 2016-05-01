@@ -111,13 +111,14 @@
         </div>
         <div class="clearfix" style="height: 8px;"></div>
         {% for book in books %}
-            <div class="row" id="{{ book.id }}" style="background-color: #f0f0f0;" >
-                <div class="col-lg-6 col-md-6 col-sm-8 col-sm-12">
+            <div class="row" id="{{ book.id }}">
+                <div class="col-lg-1 col-md-1 col-sm-1 visible-lg visible-md visible-sm"></div>
+                <div class="col-lg-9 col-md-9 col-sm-10 col-sm-12" style="background-color: #f0f0f0;">
                     <img src="{{ book.pic }}" alt="图书"
-                         class="img-rounded col-lg-3 col-md-3 col-sm-3 col-xs-4"
+                         class="img-rounded col-lg-3 col-md-3 col-sm-4 col-xs-5"
                          style="margin: 10px 0;min-width: 80px;min-height: 140px;"
                     />
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
                         <div class="row">
                             <a class="pull-left"><h4>{{ book.name }}</h4></a>
 {#                            如果当前用户可以编辑#}
