@@ -21,7 +21,7 @@
                 <div class="row">
                     {% if can_edit %}
                         <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
-                            <a id="a_edit_nickname">{{ request.session.user.nickname }}</a>
+                            <a id="a_edit_nickname">{{ viewuser.nickname }}</a>
                         </div>
                         <div id="div_edit_nickname" style="display: none;">
                             <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
@@ -31,13 +31,13 @@
                         </div>
                     {% else %}
                         <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
-                            <span>{{ request.session.user.nickname }}</span>
+                            <span>{{ viewuser.nickname }}</span>
                         </div>
                     {% endif %}
                 </div>
                 {% if can_edit %}
                     <div class="row">
-                       <span>{{ request.session.user.username }}</span>
+                       <span>{{ viewuser.username }}</span>
                     </div>
                 {% endif %}
             </div>
@@ -49,7 +49,7 @@
             {% if can_edit %}
                 <div id="div_show_weixin" style="font-size: 14px;">
                     <span>微信</span>
-                    <a id="a_edit_weixin">{{ request.session.user.weixin }}</a>
+                    <a id="a_edit_weixin">{{ viewuser.weixin }}</a>
                 </div>
                 <div id="div_edit_weixin" style="display: none;">
                     <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_weixin" placeholder="输入微信" />
@@ -58,7 +58,7 @@
             {% else %}
                 <div id="div_show_weixin" style="font-size: 14px;">
                     <span>微信</span>
-                    <span style="color: #5e5e5e;">{{ request.session.user.weixin }}</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.weixin }}</span>
                 </div>
             {% endif %}
         </div>
@@ -69,7 +69,7 @@
             {% if can_edit %}
                 <div id="div_show_qq" style="font-size: 14px;">
                     <span>QQ&nbsp;</span>
-                    <a id="a_edit_qq">{{ request.session.user.qq }}</a>
+                    <a id="a_edit_qq">{{ viewuser.qq }}</a>
                 </div>
                 <div id="div_edit_qq" style="display: none;">
                     <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_qq" placeholder="输入QQ" />
@@ -78,7 +78,7 @@
             {% else %}
                 <div id="div_show_qq" style="font-size: 14px;">
                     <span>QQ&nbsp;</span>
-                    <span style="color: #5e5e5e;">{{ request.session.user.qq }}</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.qq }}</span>
                 </div>
             {% endif %}
         </div>
@@ -88,7 +88,7 @@
             {% if can_edit %}
                 <div id="div_show_tel" style="font-size: 14px;">
                     <span>电话</span>
-                    <a id="a_edit_tel">{{ request.session.user.tel }}</a>
+                    <a id="a_edit_tel">{{ viewuser.tel }}</a>
                 </div>
                 <div id="div_edit_tel" style="display: none;">
                     <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_tel" placeholder="输入电话" />
@@ -97,7 +97,7 @@
             {% else %}
                 <div id="div_show_tel" style="font-size: 14px;">
                     <span>电话</span>
-                    <span style="color: #5e5e5e;">{{ request.session.user.tel }}</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.tel }}</span>
                 </div>
             {% endif %}
         </div>
@@ -107,7 +107,7 @@
     <div class="col-lg-8 col-md-8 col-sm-8 col-md-pull-4 col-lg-pull-4 col-sm-pull-4 col-xs-12">
 {#    书架标签#}
         <div class="row">
-            <h2 class="col-md-offset-1">我的书架</h2>
+            <h2 class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1">我的书架</h2>
         </div>
         <div class="clearfix" style="height: 8px;"></div>
         {% for book in books %}
