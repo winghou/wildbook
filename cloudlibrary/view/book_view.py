@@ -5,11 +5,13 @@ import time
 from urllib.parse import urljoin
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseNotModified, JsonResponse, Http404
 from django.shortcuts import render
 
+from cloudlibrary.db.common import get_oldest_unread_reply_date
 from cloudlibrary.static_vars import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME, MAX_LEN_DESCRIPTION
-from cloudlibrary.models import WildBook, WildUser, WildBookHistory
+from cloudlibrary.models import WildBook, WildUser, WildBookHistory, WildBookReply
 from cloudlibrary.public.qiniu import save_file_to_qiniu, del_pic_from_qiniu
 from wildteam import settings
 from wildteam.settings import BASE_DIR
@@ -53,7 +55,6 @@ def del_book(request):
         if img_path.find(DEFAULT_PIC_NAME) < 0 and os.path.exists(img_path) and os.path.isfile(img_path):
             os.remove(img_path)
             pass
-        book.delete()
         # 从七牛删除相应图片
         try:
             if img_path.find(DEFAULT_PIC_NAME) < 0:
@@ -63,6 +64,8 @@ def del_book(request):
             print("从七牛删除图片时出错:", e)
             pass
         pass
+        # 执行删除
+        book.delete()
     except Exception as e:
         print(e)
         cont_data["res"] = "error"
@@ -164,4 +167,85 @@ def deal_add_book(request):
         cont_data["msg"] = "您的图书发布成功!"
         cont_data["next_page"] = "/index"
         return render(request, "cloudlibrary/msg.html", cont_data)
+    pass
+
+
+def book_detail(request, book_id, page=1):
+    # 直接受get请求
+    data_cont = {}
+    try:
+        if request.method != "GET":
+            raise Exception()
+        book_id = int(book_id)
+        view_book = WildBook.objects.get(id=book_id)
+        view_user = view_book.owner
+
+        # 如果浏览书的是书的主人,要处理
+        if view_user.id == request.user.id:
+            view_user.newreply -= view_book.newreply
+            view_user.newreply = max(0, view_user.newreply)
+            view_user.save()
+            view_book.newreply = 0
+
+            # 修改最新回复时间,让其沉底
+            # print(get_oldest_unread_reply_date(view_user.id))
+            view_book.last_reply_date = get_oldest_unread_reply_date(view_user.id)
+            view_book.save()
+            # 修改session中的 newreply信息
+            request.session.user.newreply = view_user.newreply
+            pass
+
+        # 得到回复并分页
+        view_book_replys = WildBookReply.objects.filter(book=view_book).order_by('-id')
+
+        # 分页
+        try:
+            page = int(page)
+            if page < 1:
+                page = 1
+            pass
+        except:
+            page = 1
+            pass
+        # 每页显示记录数量
+        reply_cnt_per_page = 10
+        book_page_list = Paginator(view_book_replys, reply_cnt_per_page)
+        # 总分页数
+        total_page = book_page_list.num_pages
+        try:
+            replys_cur_page = book_page_list.page(page)
+            pass
+        except EmptyPage:
+            replys_cur_page = book_page_list.page(total_page)
+            page = total_page
+            pass
+        except Exception:
+            replys_cur_page = book_page_list.page(1)
+            page = 1
+            pass
+        # 分页信息返回
+        data_cont["page1st"] = page - 2
+        data_cont["page2ed"] = page - 1
+        data_cont["page3th"] = page
+        data_cont["page4th"] = page + 1 if page + 1 <= total_page else -1
+        data_cont["page5th"] = page + 2 if page + 2 <= total_page else -1
+        data_cont["page_first"] = 1
+        data_cont["page_last"] = total_page
+
+        # 填写返回的信息
+        data_cont["viewbook"] = view_book
+        data_cont["viewuser"] = view_user
+        data_cont["replys"] = replys_cur_page
+        pass
+    except:
+        import traceback
+        traceback.print_exc()
+        data_cont = {
+            "res": "error",
+            "msg": "你访问的页面不存在",
+            "next_page": "/index",
+        }
+        return render(request, "cloudlibrary/msg.html", data_cont)
+        pass
+    return render(request, 'cloudlibrary/bookdetail.html', data_cont)
     pass

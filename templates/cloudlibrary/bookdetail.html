@@ -1,0 +1,228 @@
+{% load staticfiles %}
+{% include "cloudlibrary/includes/_common_head.html" %}
+{#在这里加载/编写自己的js/css#}
+<link rel="stylesheet" href="{% static 'cloudlibrary/css/people.css' %}"/>
+<style type="text/css">
+    .form-group {
+        margin-top: 0;
+    }
+</style>
+{% include "cloudlibrary/includes/_common_head_sec.html" %}
+{% include "cloudlibrary/includes/_common_nav.html" %}
+{#以上为引入头部#}
+
+{#书&个人信息#}
+<div class="container-fluid">
+{#    个人信息#}
+    <div class="col-lg-4 col-md-4 col-sm-4 col-md-push-8 col-lg-push-8 col-sm-push-8 col-xs-11">
+{#    显示个人信息的div #}
+        <div class="row clearfix visible-lg visible-md visible-sm" style="height: 30px;"></div>
+        <div class="jumbotron col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
+            <div class="row people-info-top">
+                <img src="{% static 'public/image/icon_default_head.jpg' %}"
+                     class="col-lg-3 col-md-3 col-sm-3 col-xs-3" />
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    {#                昵称#}
+                    <div class="row">
+                        <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
+                            <a href="{% url 'cloudlibrary:person_info' viewuser.id %}"><span>{{ viewuser.nickname }}</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    {#        微信#}
+            <div class="row people-info-mid">
+                <div id="div_show_weixin" style="font-size: 14px;">
+                    <span>微信</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.weixin }}</span>
+                </div>
+            </div>
+
+    {#        qq#}
+            <div class="row people-info-mid">
+                <div id="div_show_qq" style="font-size: 14px;">
+                    <span>QQ&nbsp;</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.qq }}</span>
+                </div>
+            </div>
+
+    {#        电话#}
+            <div class="row people-info-bottom">
+                <div id="div_show_tel" style="font-size: 14px;">
+                    <span>电话</span>
+                    <span style="color: #5e5e5e;">{{ viewuser.tel }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{#    书#}
+    <div class="col-lg-8 col-md-8 col-sm-8 col-md-pull-4 col-lg-pull-4 col-sm-pull-4 col-xs-12">
+{#        书#}
+        <div class="clearfix" style="height: 30px;"></div>
+        <div class="row" id="{{ viewbook.id }}">
+            <div class="col-lg-1 col-md-1 col-sm-1 visible-lg visible-md visible-sm"></div>
+            <div class="jumbotron col-lg-9 col-md-9 col-sm-10 col-sm-10">
+                <div class="row">
+                    <img src="{{ viewbook.pic }}" alt="图书"
+                         class="img-rounded col-lg-2 col-md-2 col-sm-3 col-xs-3"
+                         style="margin: 10px 0;min-width: 60px;min-height: 100px;"
+                    />
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="row">
+                            <h4>{{ viewbook.name }}</h4>
+                        </div>
+                        <div class="row">
+                            <p style="font-size: 14px;">{{ viewbook.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" style="height: 50px;"></div>
+        {#回复#}
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 visible-lg visible-md visible-sm"></div>
+            <div class="jumbotron col-lg-9 col-md-9 col-sm-10 col-sm-12">
+                <h4>留言</h4>
+                <div class="row">
+{#                    {{ request.session.user.headpic }}#}
+                    <img src="/static/public/image/icon_default_head.jpg"
+                         class="img-rounded col-lg-2 col-md-2 col-sm-2 col-xs-2" />
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <textarea  class="form-control" rows="5" name="bookdescription" id="text_leave_msg"
+                                   placeholder="我也说两句(120字内)"></textarea>
+                        <div class="row">
+                            <div class="clearfix" style="height: 10px;"></div>
+                            <button type="button" class="btn btn-primary pull-right" id="button_leave_msg"
+                                    style="margin-right: 15px;" value="{{ viewbook.id }}">留言</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" style="height: 20px;"></div>
+{#        历史回复s#}
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 visible-lg visible-md visible-sm"></div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-sm-12" style="background-color: #f0f0f0;">
+                <div class="row" style="padding: 15px 0;">
+{#                for 循环在这里#}
+                    {% for reply in replys %}
+    {#                这是一条回复#}
+                    <div class="row jumbotron col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                         style="margin-left: 0;">
+                        <img src="/static/public/image/{{ reply.user.headpic }}"
+                             class="col-lg-2 col-md-2 col-sm-2 col-xs-2"/>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="row">
+                                <p style="font-size: 12px;min-height: 50px;">{{ reply.content }}</p>
+                            </div>
+    {#                        <div class="clearfix" style="height: 20px;"></div>#}
+                            <div class="pull-right" style="max-height: 18px;">
+                                <p style="font-size: 10px;">
+                                    <span>{{ reply.add_date }}&nbsp;</span>
+                                    <a href="{% url 'cloudlibrary:person_info' reply.user.id %}">
+                                        {{ reply.user.nickname }}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+{#                    {% if not forloop.last %}#}
+        {#                隔开回复的线#}
+{#                        <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 0;">#}
+{#                            <hr style="border:1px dashed #818a91; " />#}
+{#                        </div>#}
+{#                    {% endif %}#}
+                    {% endfor %}
+                    {% if page_last != 1 %}
+        {#                隔开回复的线#}
+{#                        <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 0;">#}
+{#                            <hr style="border:1px dashed #818a91; " />#}
+{#                        </div>#}
+                        {#分页#}
+                        <div class="container-fluid text-center">
+                            <nav class="center-block">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page_first %}" aria-label="Previous">
+                                            <span aria-hidden="true">ι«</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                {% if page1st > 0 %}
+                                    <li class="page-item">
+                                      <a class="page-link"
+                                         href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page1st %}">{{ page1st }}
+                                      </a>
+                                    </li>
+                                {% endif %}
+                                {% if page2ed > 0 %}
+                                    <li class="page-item">
+                                      <a class="page-link"
+                                         href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page2ed %}">{{ page2ed }}
+                                      </a>
+                                    </li>
+                                {% endif %}
+                                {% if page3th > 0 %}
+                                    <li class="page-item">
+                                      <a class="page-link" style="background-color: #adadad;" href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page3th %}">{{ page3th }}</a>
+                                    </li>
+                                {% endif %}
+                                {% if page4th > 0 %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page4th %}">{{ page4th }}</a>
+                                    </li>
+                                {% endif %}
+                                {% if page5th > 0 %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page5th %}">{{ page5th }}</a>
+                                    </li>
+                                {% endif %}
+                                  <li class="page-item">
+                                    <a class="page-link" href="{% url 'cloudlibrary:book_detail_with_bookid_page' viewbook.id page_last %}" aria-label="Next">
+                                      <span aria-hidden="true">»ι</span>
+                                      <span class="sr-only">Next</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<lable id="label_user_info">{{ request.user.id }}</lable>
+<form>{% csrf_token %}</form>
+
+{#引入模态提示框#}
+{#模态框,提示信息#}
+<div class="modal fade" id="modal_windows_go_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                <span id="modal_windows_go_login_msg"></span>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'cloudlibrary:wild_login' %}">
+                    <button type="button" class="btn btn-default">去登录</button>
+                </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+{% include 'cloudlibrary/includes/_common_modal_close.html' %}
+{#引入依赖js#}
+{% include "cloudlibrary/includes/_common_foot_before.html" %}
+{#自己写的js在这里加载/编写#}
+<script src="{% static 'cloudlibrary/js/bookdetail.js' %}" charset="utf-8"></script>
+{#以下为引入尾部#}
+{% include "cloudlibrary/includes/_common_foot.html" %}

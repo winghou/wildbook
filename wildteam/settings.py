@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'cloudlibrary.my_middleware.AddUserInfoMiddleWare',
 )
 
 ROOT_URLCONF = 'wildteam.urls'
@@ -75,8 +76,17 @@ WSGI_APPLICATION = 'wildteam.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # sqlite
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+        # mysql
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wildteam',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'USER': 'wild',
+        'PASSWORD': 'wilddbadmin',
     }
 }
 
@@ -101,7 +111,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
 # -----------------------------------------------------
 
 # Authentication backends

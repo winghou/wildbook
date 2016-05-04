@@ -12,12 +12,17 @@
 {#        <link rel="stylesheet" href="{% static 'public/css/bootstrap-theme.min-3.3.5.css' %}" />#}
 {#        免费CDN加速#}
         <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css" />
-        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+{#        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />#}
 
-{#        引入全局的css#}
-        <link rel="stylesheet" href="{% static 'cloudlibrary/css/common.css' %}" />
 
 {#        设置网站图标#}
         <link href="{% static 'public/image/head-icon.ico' %}" rel="bookmark" type="image/x-icon" />
         <link href="{% static 'public/image/head-icon.ico' %}" rel="icon" type="image/x-icon" />
         <link href="{% static 'public/image/head-icon.ico' %}" rel="shortcut icon" type="image/x-icon" />
+
+{#        引入Material#}
+        <link rel="stylesheet" type="text/css" href="{% static 'public/dist/css/bootstrap-material-design.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'public/dist/css/ripples.min.css' %}" />
+
+        {#        引入全局的css#}
+        <link rel="stylesheet" href="{% static 'cloudlibrary/css/common.css' %}" />

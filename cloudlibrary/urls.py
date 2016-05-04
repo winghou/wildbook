@@ -5,6 +5,7 @@ import cloudlibrary.view.search_view as search_view
 import cloudlibrary.view.book_view as book_view
 import cloudlibrary.view.login_register_view as login_reg_view
 import cloudlibrary.view.user_view as user_view
+import cloudlibrary.view.reply_view as reply_view
 
 import cloudlibrary.views as views
 
@@ -26,9 +27,18 @@ urlpatterns = [
     url(r'^edit_person/*$', user_view.edit_person, name="edit_person"),
 
     # 书籍管理
-    url(r'^addbook/*', book_view.add_book, name="addbook"),
-    url(r'^deal_add_book/*', book_view.deal_add_book,name="deal_add_book"),
-    url(r'^delete_book', book_view.del_book, name="del_book"),
+    url(r'^addbook/*$', book_view.add_book, name="addbook"),
+    url(r'^deal_add_book/*$', book_view.deal_add_book,name="deal_add_book"),
+    url(r'^delete_book/*$', book_view.del_book, name="del_book"),
+
+    # 书籍详情
+    url(r'^bookdetail/(?P<book_id>\d+)/*$', book_view.book_detail, name="book_detail_with_bookid"),
+    url(r'^bookdetail/(?P<book_id>\d+)/page/(?P<page>\d+)/*$',
+        book_view.book_detail, name="book_detail_with_bookid_page"),
+
+    # 书籍回复
+    # POST方法
+    url(r'^book_reply/*$', reply_view.book_reply, name="book_reply"),
 
     # 搜索
     url(r'^search/*$', search_view.index_search, name="index_search"),

@@ -12,96 +12,107 @@
     <div class="col-lg-4 col-md-4 col-sm-4 col-md-push-8 col-lg-push-8 col-sm-push-8 col-xs-11">
 {#    显示个人信息的div #}
         <div class="row clearfix visible-lg visible-md visible-sm" style="height: 70px;"></div>
-        <div class="col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
-        <div class="row people-info-top">
-            <img src="{% static 'public/image/icon_default_head.jpg' %}"
-                 class="col-lg-3 col-md-3 col-sm-5 col-xs-4" />
-            <div class="col-lg-9 col-md-9 col-sm-7 col-xs-8">
-{#                昵称#}
-                <div class="row">
+        <div class="jumbotron col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
+            <div class="row people-info-top">
+                <img src="{% static 'public/image/icon_default_head.jpg' %}"
+                     class="col-lg-3 col-md-3 col-sm-5 col-xs-4" />
+                <div class="col-lg-9 col-md-9 col-sm-7 col-xs-8">
+    {#                昵称#}
+                    <div class="row">
+                        {% if can_edit %}
+                            <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
+                                <a id="a_edit_nickname">{{ viewuser.nickname }}</a>
+                            </div>
+                            <div id="div_edit_nickname" style="display: none;">
+                                <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+                                       id="input_nickname" placeholder="输入昵称" />
+                                <a href="javascript:void(0)" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                                   style="margin: 0 3px;padding: 3px;"
+                                   id="button_confirm_nickname">确定</a>
+{#                                <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"#}
+{#                                        id="button_confirm_nickname" >确定</button>#}
+                            </div>
+                        {% else %}
+                            <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
+                                <span>{{ viewuser.nickname }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
                     {% if can_edit %}
-                        <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
-                            <a id="a_edit_nickname">{{ viewuser.nickname }}</a>
-                        </div>
-                        <div id="div_edit_nickname" style="display: none;">
-                            <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
-                                   id="input_nickname" placeholder="输入昵称" />
-                            <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                    id="button_confirm_nickname" >确定</button>
-                        </div>
-                    {% else %}
-                        <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
-                            <span>{{ viewuser.nickname }}</span>
+                        <div class="row">
+                           <span>{{ viewuser.username }}</span>
                         </div>
                     {% endif %}
                 </div>
+            </div>
+
+    {#        微信#}
+            <div class="row people-info-mid">
+    {#            如果可以编辑才加载#}
                 {% if can_edit %}
-                    <div class="row">
-                       <span>{{ viewuser.username }}</span>
+                    <div id="div_show_weixin" style="font-size: 14px;">
+                        <span>微信</span>
+                        <a id="a_edit_weixin">{{ viewuser.weixin }}</a>
+                    </div>
+                    <div id="div_edit_weixin" style="display: none;">
+                        <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="input_weixin" placeholder="输入微信" />
+{#                        <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="button_confirm_weixin" >确定</button>#}
+                        <a href="javascript:void(0)" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                           style="margin: 0 3px;padding: 3px;"
+                           id="button_confirm_weixin">确定</a>
+                    </div>
+                {% else %}
+                    <div id="div_show_weixin" style="font-size: 14px;">
+                        <span>微信</span>
+                        <span style="color: #5e5e5e;">{{ viewuser.weixin }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
+    {#        qq#}
+            <div class="row people-info-mid">
+    {#            如果可以编辑才加载#}
+                {% if can_edit %}
+                    <div id="div_show_qq" style="font-size: 14px;">
+                        <span>QQ&nbsp;</span>
+                        <a id="a_edit_qq">{{ viewuser.qq }}</a>
+                    </div>
+                    <div id="div_edit_qq" style="display: none;">
+                        <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="input_qq" placeholder="输入QQ" />
+{#                        <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="button_confirm_qq" >确定</button>#}
+                        <a href="javascript:void(0)" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                           style="margin: 0 3px;padding: 3px;"
+                           id="button_confirm_qq">确定</a>
+                    </div>
+                {% else %}
+                    <div id="div_show_qq" style="font-size: 14px;">
+                        <span>QQ&nbsp;</span>
+                        <span style="color: #5e5e5e;">{{ viewuser.qq }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
+    {#        电话#}
+            <div class="row people-info-bottom">
+                {% if can_edit %}
+                    <div id="div_show_tel" style="font-size: 14px;height: 26px;">
+                        <span>电话</span>
+                        <a id="a_edit_tel">{{ viewuser.tel }}</a>
+                    </div>
+                    <div id="div_edit_tel" style="display: none;">
+                        <input type="text" class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="input_tel" placeholder="输入电话" />
+                        <a href="javascript:void(0)" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                           style="margin: 0 3px;padding: 3px;"
+                           id="button_confirm_tel">确定</a>
+                    </div>
+                {% else %}
+                    <div id="div_show_tel" style="font-size: 14px;">
+                        <span>电话</span>
+                        <span style="color: #5e5e5e;">{{ viewuser.tel }}</span>
                     </div>
                 {% endif %}
             </div>
         </div>
-
-{#        微信#}
-        <div class="row people-info-mid">
-{#            如果可以编辑才加载#}
-            {% if can_edit %}
-                <div id="div_show_weixin" style="font-size: 14px;">
-                    <span>微信</span>
-                    <a id="a_edit_weixin">{{ viewuser.weixin }}</a>
-                </div>
-                <div id="div_edit_weixin" style="display: none;">
-                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_weixin" placeholder="输入微信" />
-                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_weixin" >确定</button>
-                </div>
-            {% else %}
-                <div id="div_show_weixin" style="font-size: 14px;">
-                    <span>微信</span>
-                    <span style="color: #5e5e5e;">{{ viewuser.weixin }}</span>
-                </div>
-            {% endif %}
-        </div>
-
-{#        qq#}
-        <div class="row people-info-mid">
-{#            如果可以编辑才加载#}
-            {% if can_edit %}
-                <div id="div_show_qq" style="font-size: 14px;">
-                    <span>QQ&nbsp;</span>
-                    <a id="a_edit_qq">{{ viewuser.qq }}</a>
-                </div>
-                <div id="div_edit_qq" style="display: none;">
-                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_qq" placeholder="输入QQ" />
-                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_qq" >确定</button>
-                </div>
-            {% else %}
-                <div id="div_show_qq" style="font-size: 14px;">
-                    <span>QQ&nbsp;</span>
-                    <span style="color: #5e5e5e;">{{ viewuser.qq }}</span>
-                </div>
-            {% endif %}
-        </div>
-
-{#        电话#}
-        <div class="row people-info-bottom">
-            {% if can_edit %}
-                <div id="div_show_tel" style="font-size: 14px;">
-                    <span>电话</span>
-                    <a id="a_edit_tel">{{ viewuser.tel }}</a>
-                </div>
-                <div id="div_edit_tel" style="display: none;">
-                    <input type="text" class="col-lg-8 col-md-8 col-sm-8" id="input_tel" placeholder="输入电话" />
-                    <button type="button" class="col-lg-4 col-md-4 col-sm-4" id="button_confirm_tel" >确定</button>
-                </div>
-            {% else %}
-                <div id="div_show_tel" style="font-size: 14px;">
-                    <span>电话</span>
-                    <span style="color: #5e5e5e;">{{ viewuser.tel }}</span>
-                </div>
-            {% endif %}
-        </div>
-    </div>
     </div>
 {#    书#}
     <div class="col-lg-8 col-md-8 col-sm-8 col-md-pull-4 col-lg-pull-4 col-sm-pull-4 col-xs-12">
@@ -113,22 +124,34 @@
         {% for book in books %}
             <div class="row" id="{{ book.id }}">
                 <div class="col-lg-1 col-md-1 col-sm-1 visible-lg visible-md visible-sm"></div>
-                <div class="col-lg-9 col-md-9 col-sm-10 col-sm-12" style="background-color: #f0f0f0;">
-                    <img src="{{ book.pic }}" alt="图书"
-                         class="img-rounded col-lg-3 col-md-3 col-sm-4 col-xs-5"
-                         style="margin: 10px 0;min-width: 80px;min-height: 140px;"
-                    />
-                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
-                        <div class="row">
-                            <a class="pull-left"><h4>{{ book.name }}</h4></a>
-{#                            如果当前用户可以编辑#}
-                            {% if can_edit %}
-                                <button class="btn btn-success-outline pull-right" onclick="delete_book(this)"
-                                        style="margin: 5px 0;" id="{{ book.id }}" name="{{ book.name }}">下架</button>
-                            {% endif %}
-                        </div>
-                        <div class="row">
-                            <p>{{ book.description }}</p>
+                <div class="jumbotron col-lg-9 col-md-9 col-sm-10 col-sm-12">
+                    <div class="row">
+                        <img src="{{ book.pic }}" alt="图书"
+                             class="img-rounded col-lg-3 col-md-3 col-sm-4 col-xs-5"
+                             style="margin: 10px 0;min-width: 60px;min-height: 120px;"
+                        />
+                        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
+                            <div class="row">
+                                <a href="{% url 'cloudlibrary:book_detail_with_bookid' book.id %}"
+                                   class="pull-left col-lg-10 col-md-10 col-sm-10 col-xs-9"
+                                   style="padding: 0;">
+                                    <span style="font-size: 20px;">{{ book.name }}</span>
+                                    {% if book.newreply != 0 and viewuser.id == request.user.id %}
+                                        <span class="badge" style="background-color: red;">{{ book.newreply }}</span>
+                                    {% endif %}
+                                </a>
+
+    {#                            如果当前用户可以编辑#}
+                                {% if can_edit %}
+                                    <button class="btn btn-raised btn-default pull-right col-lg-2 col-md-2 col-sm-2 col-xs-3"
+                                            onclick="delete_book(this)"
+                                            style="margin: 0 10px 3px 0;padding: 2px 3px;width: 40px;" id="{{ book.id }}"
+                                            name="{{ book.name }}">下架</button>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <p style="font-size: 14px;">{{ book.description }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

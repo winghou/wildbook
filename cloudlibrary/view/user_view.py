@@ -32,7 +32,7 @@ def person_info(request, uid=None, page=1):
 
         # 分页
         # 得到所有发布的图书
-        books = WildBook.objects.filter(owner=data_cont["viewuser"]).order_by('-id')
+        books = WildBook.objects.filter(owner=data_cont["viewuser"]).order_by('-last_reply_date', '-newreply')
         book_cnt_per_page = 10
         book_page_list = Paginator(books, book_cnt_per_page)
         total_page = book_page_list.num_pages

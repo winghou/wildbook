@@ -14,6 +14,8 @@ MAX_LEN_EMAIL = 40
 MAX_LEN_NICKNAME = 20
 MAX_LEN_BOOK_NAME = 40
 MAX_LEN_DESCRIPTION = 200
+MAX_LEN_BOOK_REPLY = 120
+
 BOOK_PIC_UPLOAD_PATH = os.path.join(settings.BASE_DIR, "media", "cloudlibrary", "image")
 DEFAULT_PIC_NAME = "default_book_pic.gif"
 

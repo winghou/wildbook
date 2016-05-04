@@ -7,3 +7,13 @@
 {#    bootsrap js 文件#}
 {#    <script src="{% static 'public/js/bootstrap.min-3.3.5.js' %}"></script>#}
     <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{# Material #}
+    <script src="{% static 'public/dist/js/material.min.js' %}"></script>
+    <script src="{% static 'public/dist/js/ripples.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $.material.init();
+        $.material.ripples();
+    });
+</script>

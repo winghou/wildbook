@@ -65,7 +65,8 @@ def deal_login_register(request):
             else:
                 user = authenticate(username=email, password=password)
                 login(request, user)
-                save_user_to_session(request, user)
+                # 已在中间件中向session添加用户信息
+                # save_user_to_session(request, user)
                 data["res"] = "success"
 
         # 处理登录请求
@@ -76,8 +77,10 @@ def deal_login_register(request):
                 # print("认证成功")
                 login(request, user)
                 data["res"] = "success"
+
                 # 保存用户信息到session
-                save_user_to_session(request, user)
+                # 已在中间件中向session添加用户信息
+                # save_user_to_session(request, user)
 
                 try:
                     wild_user = WildUser.objects.get(id=user.id)
