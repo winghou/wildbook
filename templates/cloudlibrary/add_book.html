@@ -14,6 +14,7 @@
               onsubmit="return before_submit_check();"
               class="add-book-from form-horizontal" role="form" action="{% url 'cloudlibrary:deal_add_book' %}">
             {% csrf_token %}
+            <legend>我要发布</legend>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2" style="text-align: right;font-size: 16px; padding: 6px 0;margin: 35px 15px 0 0;">
                     <span>书名</span>
@@ -27,10 +28,10 @@
 
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2" style="text-align: right;font-size: 16px; padding: 0;margin: 35px 15px 0 0;">
-                    <span>简要描述</span>
+                    <span>描述</span>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10">
-                    <textarea  class="form-control" rows="8" title="" name="bookdescription" id="book_desc_input"
+                <div class="col-lg-8 col-md-8 col-sm-9 col-xs-9">
+                    <textarea  class="form-control" rows="5" title="" name="bookdescription" id="book_desc_input"
                                placeholder="请输入简单描述(200字内)"></textarea>
                 </div>
             </div>

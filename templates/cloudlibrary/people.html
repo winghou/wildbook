@@ -15,8 +15,8 @@
         <div class="jumbotron col-md-10 col-lg-10 col-sm-10 col-xs-12 div-person-info" >
             <div class="row people-info-top">
                 <img src="{% static 'public/image/icon_default_head.jpg' %}"
-                     class="col-lg-3 col-md-3 col-sm-5 col-xs-4" />
-                <div class="col-lg-9 col-md-9 col-sm-7 col-xs-8">
+                     class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding: 0;margin: 0;"/>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-xs-8">
     {#                昵称#}
                     <div class="row">
                         {% if can_edit %}
@@ -29,8 +29,6 @@
                                 <a href="javascript:void(0)" class="btn btn-primary col-lg-3 col-md-3 col-sm-3 col-xs-3"
                                    style="margin: 0 3px;padding: 3px;"
                                    id="button_confirm_nickname">确定</a>
-{#                                <button type="button" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"#}
-{#                                        id="button_confirm_nickname" >确定</button>#}
                             </div>
                         {% else %}
                             <div id="div_show_nickname" style="font-size: 16px; height: 26px;">
@@ -118,7 +116,7 @@
     <div class="col-lg-8 col-md-8 col-sm-8 col-md-pull-4 col-lg-pull-4 col-sm-pull-4 col-xs-12">
 {#    书架标签#}
         <div class="row">
-            <h2 class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1">我的书架</h2>
+            <h2 class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1">书架</h2>
         </div>
         <div class="clearfix" style="height: 8px;"></div>
         {% for book in books %}
@@ -127,10 +125,10 @@
                 <div class="jumbotron col-lg-9 col-md-9 col-sm-10 col-sm-12">
                     <div class="row">
                         <img src="{{ book.pic }}" alt="图书"
-                             class="img-rounded col-lg-3 col-md-3 col-sm-4 col-xs-5"
-                             style="margin: 10px 0;min-width: 60px;min-height: 120px;"
+                             class="img-rounded col-lg-3 col-md-3 col-sm-4 col-xs-4"
+                             style="padding: 3px 15px;min-width: 60px;min-height: 120px;"
                         />
-                        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-7">
+                        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
                             <div class="row">
                                 <a href="{% url 'cloudlibrary:book_detail_with_bookid' book.id %}"
                                    class="pull-left col-lg-10 col-md-10 col-sm-10 col-xs-9"
@@ -150,13 +148,20 @@
                                 {% endif %}
                             </div>
                             <div class="row">
-                                <p style="font-size: 14px;">{{ book.description }}</p>
+                                <p style="font-size: 14px;padding: 0;margin: 0;" class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <span>{{ book.description }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="clearfix" id="clearfix{{ book.id }}" style="margin-bottom: 30px;"></div>
+        {% empty %}
+            <div class="clearfix" style="height: 30px;"></div>
+            <div class="row" style="color: #818a91;">
+                <h4 class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1">这里还没有图书...</h4>
+            </div>
         {% endfor %}
         {% if page_last != 1 %}
         {#分页#}

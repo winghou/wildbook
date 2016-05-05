@@ -43,6 +43,12 @@ def index_search(request, page=1):
             books_cur_page = book_page_list.page(1)
             page = 1
             pass
+        # 对描述字数进行限制
+        max_len_desc = 80
+        for book in books_cur_page:
+            if len(book.description) > max_len_desc:
+                book.description = book.description[0:max_len_desc]
+
         # 设置下一页
         data_cont = {"books": books_cur_page,
                      "page1st": page - 2,

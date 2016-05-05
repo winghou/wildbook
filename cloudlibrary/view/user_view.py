@@ -10,7 +10,6 @@ from cloudlibrary.models import WildUser, WildBook
 from cloudlibrary.view.operations import save_user_to_session
 
 
-@login_required
 def person_info(request, uid=None, page=1):
     try:
         data_cont = {}

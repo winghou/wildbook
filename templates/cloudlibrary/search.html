@@ -13,29 +13,40 @@
 {% else %}
     {#显示商品信息的div#}
     <div class="container">
-        {% for book in books %}
-            <div class="row">
-                <div class="jumbotron col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-2">
-                    <img src="{{ book.pic }}" alt="图片加载失败..."
-                         class="img-rounded col-lg-3 col-md-3 col-sm-3 col-xs-4"
-                         style="margin: 15px 0; padding-right: 15px;min-width: 80px;min-height: 150px;"
-                    />
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8"
-                         style="margin: 15px 0;" >
-                        <div class="row">
-                            <a href="{% url 'cloudlibrary:person_info' book.owner.id %}">{{ book.owner.nickname }}</a>
-                        </div>
+    {% for book in books %}
+        <div class="row">
+            <div class="jumbotron col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-2">
+                <img src="{{ book.pic }}" alt="图片加载失败..."
+                     class="img-rounded col-lg-3 col-md-3 col-sm-3 col-xs-4"
+                     style="margin: 15px 0; padding-right: 15px;min-width: 80px;min-height: 120px;"
+                />
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8"
+                     style="margin: 15px 0;" >
+                    <div class="row" style="min-height: 130px;margin: 0 0 0 5px;padding: 0;">
                         <div class="row">
                             <a href="{% url 'cloudlibrary:book_detail_with_bookid' book.id %}"><h4>{{ book.name }}</h4></a>
                         </div>
                         <div class="row">
-                            <p style="font-size: 14px;">{{ book.description }}</p>
+                            <p style="font-size: 14px;">
+                                <span>{{ book.description }}</span>
+                                {% if book.description|length_is:"80" %}
+                                    <a href="{% url 'cloudlibrary:book_detail_with_bookid' book.id %}">...</a>
+                                {% endif %}
+                            </p>
                         </div>
+                    </div>
+                    <div class="row" style="font-size: 12px;color: #6a6f7d;">
+                        <span class="pull-right">
+                            <a href="{% url 'cloudlibrary:person_info' book.owner.id %}">{{ book.owner.nickname }}</a>
+                        </span>
+                        <span class="pull-right">&nbsp;&nbsp;</span>
+                        <span class="pull-right">{{ book.add_date|date:"Y-m-d H:i:s" }}</span>
                     </div>
                 </div>
             </div>
-            <div class="clearfix" style="margin-bottom: 30px;"></div>
-        {% endfor %}
+        </div>
+        <div class="clearfix" style="margin-bottom: 30px;"></div>
+    {% endfor %}
     </div>
 
     {% if page_last != 1 %}

@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qqs$se)5g@49&dx$te$^a0^hm+9nxvjoqly+4fb_=ry$p74(qg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -81,12 +81,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
         # mysql
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'wildteam',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
-        # 'USER': 'wild',
-        # 'PASSWORD': 'wilddbadmin',
     }
 }
 
@@ -111,7 +105,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
 # -----------------------------------------------------
 
 # Authentication backends
