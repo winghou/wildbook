@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qqs$se)5g@49&dx$te$^a0^hm+9nxvjoqly+4fb_=ry$p74(qg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudlibrary',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,7 +112,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'serverstatic/')
 # -----------------------------------------------------
 
 # Authentication backends
@@ -127,3 +128,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 QINIU_DOMAIN = "http://7xtddb.com1.z0.glb.clouddn.com/"
+
+# 设置 django restful framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'PAGE_SIZE': 10
+}

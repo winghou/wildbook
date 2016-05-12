@@ -6,11 +6,20 @@ import cloudlibrary.view.book_view as book_view
 import cloudlibrary.view.login_register_view as login_reg_view
 import cloudlibrary.view.user_view as user_view
 import cloudlibrary.view.reply_view as reply_view
-
 import cloudlibrary.views as views
+
+# restful
+from rest_framework import routers
+import api.views as api_views
+router = routers.DefaultRouter()
+router.register(r'wilduser', api_views.WildUserViewSet)
+router.register(r'index_book', api_views.IndexBookViewSet)
 
 
 urlpatterns = [
+    # api
+    url(r'^api/', include(router.urls)),
+
     # 用户登录注册
     url(r'^login/*$', login_reg_view.userlogin, name="wild_login"),
     url(r'^deal_login_register/*$', login_reg_view.deal_login_register, name="deal_login_register"),
