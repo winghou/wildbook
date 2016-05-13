@@ -14,6 +14,7 @@ import api.views as api_views
 router = routers.DefaultRouter()
 router.register(r'wilduser', api_views.WildUserViewSet)
 router.register(r'index_book', api_views.IndexBookViewSet)
+router.register(r'user_book', api_views.UserBookViewSet, base_name='cloudlibrary')
 
 
 urlpatterns = [
