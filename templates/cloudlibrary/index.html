@@ -1,5 +1,8 @@
 {% load staticfiles %}
 {% include "cloudlibrary/includes/_common_head.html" %}
+
+<link rel="stylesheet" href="{% static 'cloudlibrary/css/index.css' %}" />
+
 {% include "cloudlibrary/includes/_common_head_sec.html" %}
 {% include "cloudlibrary/includes/_common_nav.html" %}
 {#以上为引入头部#}
@@ -96,8 +99,12 @@
     </div>
 {% endif %}
 
-
-
+{#上移到顶部#}
+{#<div class="fixed-btn">#}
+{#    <a href="#top" style="align-content: center;text-align: center;vertical-align: middle;">#}
+{#        <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>#}
+{#    </a>#}
+{#</div>#}
 {#引入依赖js#}
 {% include "cloudlibrary/includes/_common_foot_before.html" %}
 

@@ -20,6 +20,8 @@ router.register(r'user_book', api_views.UserBookViewSet, base_name='cloudlibrary
 urlpatterns = [
     # api
     url(r'^api/', include(router.urls)),
+    url(r'^api/user_login/*$', api_views.user_login),
+    url(r'^api/add_book/*$', api_views.add_book),
 
     # 用户登录注册
     url(r'^login/*$', login_reg_view.userlogin, name="wild_login"),
