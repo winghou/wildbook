@@ -14,10 +14,11 @@ class WildUserSerializer(serializers.HyperlinkedModelSerializer):
 
 class WildBookSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="cloudlibrary:wildbook-detail")
+    owner = WildUserSerializer()
 
     class Meta:
         model = WildBook
-        fields = ('url', 'id', 'name', 'description', 'pic', 'add_date', 'newreply')
+        fields = ('url', 'id', 'name', 'description', 'pic', 'add_date', 'newreply', 'owner')
     pass
 
     # def update(self, instance, validated_data):
