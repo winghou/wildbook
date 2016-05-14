@@ -15,7 +15,7 @@ def search_book(search_cont):
         tag = get_tag_by_name(tag_names[1:])
         print(tag.id)
         # 得到所属标签的所有书
-        books = tag.wildbook_set.all()
+        books = tag.wildbook_set.all().order_by('-id')
         pass
     else:
         key_words = str(search_cont).split()

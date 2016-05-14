@@ -46,7 +46,15 @@ def person_info(request, uid=None, page=1):
             books_cur_page = book_page_list.page(1)
             page = 1
             pass
-        # 设置下一页
+
+        for book in books_cur_page:
+            # 设置标签
+            book.tag_list = list(book.tags.all())
+            # print(book.tag_list)
+        # 标签颜色随机
+        tag_bgc_list = ['label-default', 'label-primary', 'label-success', 'label-warning', 'label-danger',
+                        'label-info']
+        #  设置下一页
         data_cont["books"] = books_cur_page,
         data_cont["page1st"] = page - 2
         data_cont["page2ed"] = page - 1

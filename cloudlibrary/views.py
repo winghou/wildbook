@@ -23,6 +23,8 @@ def add_feedback(request):
         pass
     try:
         content = request.POST.get("feedback")
+        content = content[0:190]
+        print(content)
         if request.user.is_authenticated():
             feedback = Feedback(content=content, user_id=request.user.id)
         else:

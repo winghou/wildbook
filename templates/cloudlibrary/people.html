@@ -147,10 +147,19 @@
                                             name="{{ book.name }}">下架</button>
                                 {% endif %}
                             </div>
-                            <div class="row">
+                            <div class="row" style="min-height: 140px;">
                                 <p style="font-size: 14px;padding: 0;margin: 0;" class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <span>{{ book.description }}</span>
                                 </p>
+                            </div>
+                            <div class="row">
+                                {% for tag in book.tag_list %}
+                                    <label class="book-tag">
+                                        <span class="label label-default">
+                                            <a href="#" id="{{ tag.id }}" onclick="book_tag_click(this);">{{ tag.name }}</a>
+                                        </span>
+                                    </label>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -229,5 +238,11 @@
 {% if can_edit %}
     <script src="{% static 'cloudlibrary/js/people.js' %}"></script>
 {% endif %}
+<script>
+    function book_tag_click(obj) {
+        $("input[name=search_input]").val("#" + obj["text"]);
+        $("form[name=search_form]").submit();
+    }
+</script>
 {#以下为引入尾部#}
 {% include "cloudlibrary/includes/_common_foot.html" %}

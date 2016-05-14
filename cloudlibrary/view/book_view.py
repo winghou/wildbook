@@ -24,8 +24,8 @@ def add_book(request):
                     'label-danger', 'label-info']
 
     book_tags = list(get_first_level_tags())
-    book_tag_first = book_tags[0:10]
-    book_tag_second = book_tags[10:]
+    book_tag_first = book_tags[0:5]
+    book_tag_second = book_tags[5:]
     data_content = {
         "tag_bgc_list": tag_bgc_list,
         "book_tag_first": book_tag_first,

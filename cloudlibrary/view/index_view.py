@@ -12,6 +12,7 @@ def index(request, page=1):
         if isinstance(page, str):
             page = int(page)
         # 得到需要显示的所有图书
+        request.session["search_input"] = ""
         books = WildBook.objects.all().order_by("-id")
 
         # 分页
