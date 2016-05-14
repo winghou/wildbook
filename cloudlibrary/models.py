@@ -40,6 +40,16 @@ class WildUser(User):
     pass
 
 
+class BookTag(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20, default="未分类")
+    parent_tag = models.ForeignKey('self', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+    pass
+
+
 class WildBook(models.Model):
     name = models.CharField(max_length=45, default="未知")
     description = models.CharField(max_length=205, default="")
@@ -49,6 +59,8 @@ class WildBook(models.Model):
     last_reply_date = models.DateTimeField(auto_now_add=True)
 
     owner = models.ForeignKey(WildUser, on_delete=models.CASCADE, null=True, blank=True)
+    # 标签
+    tags = models.ManyToManyField(BookTag, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -77,3 +89,4 @@ class WildBookReply(models.Model):
     def __str__(self):
         return self.content
     pass
+

@@ -23,7 +23,12 @@ p, h5, h4, h3, h2, h1{
     word-break: break-all;
     overflow: hidden;
 }
-
+.book-tag label{
+    margin: 0;
+}
+.book-tag a {
+    color: white;
+}
 
 /*DEBUG*/
 /*a, div, span, table, ul, li , img{*/

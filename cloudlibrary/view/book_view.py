@@ -232,10 +232,15 @@ def book_detail(request, book_id, page=1):
         data_cont["page_first"] = 1
         data_cont["page_last"] = total_page
 
+        # 标签
+        data_cont["tag_bgc_list"] = ['label-default', 'label-primary', 'label-success', 'label-warning',
+                                     'label-danger', 'label-info']
+        view_book.tag_list = list(view_book.tags.all())
         # 填写返回的信息
         data_cont["viewbook"] = view_book
         data_cont["viewuser"] = view_user
         data_cont["replys"] = replys_cur_page
+
         pass
     except:
         import traceback

@@ -2,6 +2,7 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render
 
+from cloudlibrary.db.common import get_first_level_tags
 from cloudlibrary.db.search import search_book
 from cloudlibrary.models import WildBook
 
@@ -30,13 +31,28 @@ def index(request, page=1):
             books_cur_page = book_page_list.page(1)
             page = 1
             pass
+
+        # 得到标签
+        book_tags = list(get_first_level_tags())
+        book_tag_first = book_tags[0:10]
+        book_tag_second = book_tags[10:]
+
         # 对描述字数进行限制
         max_len_desc = 80
         for book in books_cur_page:
             if len(book.description) > max_len_desc:
                 book.description = book.description[0:max_len_desc]
+            # 设置标签
+            book.tag_list = list(book.tags.all())
+            # print(book.tag_list)
 
+        # 标签颜色随机
+        tag_bgc_list = ['label-default', 'label-primary', 'label-success', 'label-warning', 'label-danger',
+                        'label-info']
         data_content = {"books": books_cur_page,
+                        "tag_bgc_list": tag_bgc_list,
+                        "book_tag_first": book_tag_first,
+                        "book_tag_second": book_tag_second,
                         "page1st": page - 2,
                         "page2ed": page - 1,
                         "page3th": page,

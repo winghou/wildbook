@@ -48,9 +48,16 @@ def index_search(request, page=1):
         for book in books_cur_page:
             if len(book.description) > max_len_desc:
                 book.description = book.description[0:max_len_desc]
+            # 设置标签
+            book.tag_list = list(book.tags.all())
+            # print(book.tag_list)
 
+        # 标签颜色随机
+        tag_bgc_list = ['label-default', 'label-primary', 'label-success', 'label-warning', 'label-danger',
+                        'label-info']
         # 设置下一页
         data_cont = {"books": books_cur_page,
+                     "tag_bgc_list": tag_bgc_list,
                      "page1st": page - 2,
                      "page2ed": page - 1,
                      "page3th": page,

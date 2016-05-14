@@ -1,11 +1,47 @@
 {% load staticfiles %}
 {% include "cloudlibrary/includes/_common_head.html" %}
 
+<!--suppress ALL -->
 <link rel="stylesheet" href="{% static 'cloudlibrary/css/index.css' %}" />
 
 {% include "cloudlibrary/includes/_common_head_sec.html" %}
 {% include "cloudlibrary/includes/_common_nav.html" %}
 {#以上为引入头部#}
+
+{#标签#}
+<div class="container book-tag">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 book-tag">
+            {% for tag in book_tag_first %}
+                <label>
+                    <span class="label {{ tag_bgc_list|random }}">
+                        <a href="#" id="{{ tag.id }}" onclick="book_tag_click(this);">{{ tag.name }}</a>
+                    </span>
+                </label>
+            {% endfor %}
+            {% if book_tag_second|length > 0 %}
+                <label>
+                    <span class="label label-default">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="color: white;">more</a>
+                    </span>
+                </label>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body" style="padding: 0;">
+                        {% for tag in book_tag_second %}
+                            <label>
+                                <span class="label {{ tag_bgc_list|random }}">
+                                    <a href="#" id="{{ tag.id }}" onclick="book_tag_click(this);">{{ tag.name }}</a>
+                                </span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="clearfix" style="margin-bottom: 15px;"></div>
 
 {#显示商品信息的div#}
 <div class="container">
@@ -33,6 +69,15 @@
                                 {% endif %}
                             </p>
                         </div>
+                    </div>
+                    <div class="row">
+                        {% for tag in book.tag_list %}
+                            <label class="book-tag">
+                                <span class="label {{ tag_bgc_list|random }}">
+                                    <a href="#" id="{{ tag.id }}" onclick="book_tag_click(this);">{{ tag.name }}</a>
+                                </span>
+                            </label>
+                        {% endfor %}
                     </div>
                     <div class="row" style="font-size: 12px;color: #6a6f7d;">
                         <span class="pull-right">
@@ -107,6 +152,13 @@
 {#</div>#}
 {#引入依赖js#}
 {% include "cloudlibrary/includes/_common_foot_before.html" %}
+
+<script>
+    function book_tag_click(obj) {
+        $("input[name=search_input]").val("#" + obj["text"]);
+        $("form[name=search_form]").submit();
+    }
+</script>
 
 {#以下为引入尾部#}
 {% include "cloudlibrary/includes/_common_foot.html" %}

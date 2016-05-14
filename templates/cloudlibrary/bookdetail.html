@@ -72,8 +72,17 @@
                         <div class="row">
                             <h4>{{ viewbook.name }}</h4>
                         </div>
-                        <div class="row">
+                        <div class="row" style="min-height: 60px;">
                             <p style="font-size: 14px;">{{ viewbook.description }}</p>
+                        </div>
+                        <div class="row">
+                            {% for tag in viewbook.tag_list %}
+                                <label class="book-tag">
+                                    <span class="label {{ tag_bgc_list|random }}">
+                                        <a href="#" id="{{ tag.id }}" onclick="book_tag_click(this);">{{ tag.name }}</a>
+                                    </span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -212,6 +221,12 @@
 {#引入依赖js#}
 {% include "cloudlibrary/includes/_common_foot_before.html" %}
 {#自己写的js在这里加载/编写#}
+<script>
+    function book_tag_click(obj) {
+        $("input[name=search_input]").val("#" + obj["text"]);
+        $("form[name=search_form]").submit();
+    }
+</script>
 <script src="{% static 'cloudlibrary/js/bookdetail.js' %}" charset="utf-8"></script>
 {#以下为引入尾部#}
 {% include "cloudlibrary/includes/_common_foot.html" %}
