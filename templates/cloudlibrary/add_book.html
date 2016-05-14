@@ -14,7 +14,7 @@
               onsubmit="return before_submit_check();"
               class="add-book-from form-horizontal" role="form" action="{% url 'cloudlibrary:deal_add_book' %}">
             {% csrf_token %}
-            <legend>我要发布</legend>
+{#            <legend>我要发布</legend>#}
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2" style="text-align: right;font-size: 16px; padding: 6px 0;margin: 35px 15px 0 0;">
                     <span>书名</span>
@@ -27,7 +27,8 @@
             <div class="clearfix" style="height: 15px;"></div>
 
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2" style="text-align: right;font-size: 16px; padding: 0;margin: 35px 15px 0 0;">
+                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2"
+                     style="text-align: right;font-size: 16px; padding: 0;margin: 35px 15px 0 0;">
                     <span>描述</span>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-9 col-xs-9">
@@ -35,6 +36,54 @@
                                placeholder="请输入简单描述(200字内)"></textarea>
                 </div>
             </div>
+            <div class="clearfix" style="height: 15px;"></div>
+
+{#            标签#}
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2"
+                     style="text-align: right;font-size: 16px; padding: 0;margin: 8px 15px 0 0;">
+                    <span>标签</span>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-9 col-xs-9 checkbox">
+                    {#标签#}
+                    <div class="container book-tag">
+                        <div class="row checkbox">
+                            {% for tag in book_tag_first %}
+                                <label style="margin: 0 7px 0 0;">
+                                    <input name="tag_select" value="{{ tag.id }}" type="checkbox" />
+                                    <span class="label {{ tag_bgc_list|random }}">
+                                        <a href="#" id="{{ tag.id }}">{{ tag.name }}</a>
+                                    </span>
+                                </label>
+                            {% endfor %}
+                            {% if book_tag_second|length > 0 %}
+                                <label>
+                                    <span class="label {{ tag_bgc_list|random }}">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="color: white;">更多</a>
+                                    </span>
+                                </label>
+                                <div id="collapseOne" class="panel-collapse collapse">
+                                    <div class="panel-body checkbox" style="padding: 0;">
+                                        {% for tag in book_tag_second %}
+                                            <label style="margin: 0 7px 0 0;">
+                                                <input name="tag_select" value="{{ tag.id }}" type="checkbox" />
+                                                <span class="label {{ tag_bgc_list|random }}">
+                                                    <a href="#" id="{{ tag.id }}">{{ tag.name }}</a>
+                                                </span>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+{#                    <label>#}
+{#                        <input type="checkbox">#}
+{#                        <span>考研</span>#}
+{#                    </label>#}
+                </div>
+            </div>
+
             <div class="clearfix" style="height: 15px;"></div>
 
             <div class="row">

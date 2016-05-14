@@ -9,9 +9,9 @@ from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseNotModified, JsonResponse, Http404
 from django.shortcuts import render
 
-from cloudlibrary.db.common import get_oldest_unread_reply_date
+from cloudlibrary.db.common import get_oldest_unread_reply_date, get_first_level_tags
 from cloudlibrary.static_vars import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME, MAX_LEN_DESCRIPTION
-from cloudlibrary.models import WildBook, WildUser, WildBookHistory, WildBookReply
+from cloudlibrary.models import WildBook, WildUser, WildBookHistory, WildBookReply, BookTag
 from cloudlibrary.public.qiniu import save_file_to_qiniu, del_pic_from_qiniu
 from wildteam import settings
 from wildteam.settings import BASE_DIR
@@ -19,7 +19,20 @@ from wildteam.settings import BASE_DIR
 
 @login_required
 def add_book(request):
-    return render(request, "cloudlibrary/add_book.html")
+        # 标签
+    tag_bgc_list = ['label-default', 'label-primary', 'label-success', 'label-warning',
+                    'label-danger', 'label-info']
+
+    book_tags = list(get_first_level_tags())
+    book_tag_first = book_tags[0:2]
+    book_tag_second = book_tags[2:]
+    data_content = {
+        "tag_bgc_list": tag_bgc_list,
+        "book_tag_first": book_tag_first,
+        "book_tag_second": book_tag_second,
+    }
+
+    return render(request, "cloudlibrary/add_book.html", data_content)
     pass
 
 
@@ -146,13 +159,29 @@ def deal_add_book(request):
             save_file_to_qiniu(img_path, book.pic)
             break
         book.pic = urljoin(settings.QINIU_DOMAIN, book.pic)
+
         book.save()
+
+        # print(request.POST)
+        # 添加标签, 必须先添加图书再添加书签
+        tag_ids = request.POST.getlist("tag_select")
+        # print(tag_ids)
+        if tag_ids is not None and len(tag_ids) > 0:
+            for tag_id in tag_ids:
+                tag = BookTag.objects.get(id=tag_id)
+                # print("得到tag:", tag)
+                book.tags.add(tag)
+            pass
+
     except:
         cont_data["res"] = "error"
         if cont_data.get("msg") is None:
             cont_data["msg"] = "发布时出错"
         cont_data["next_page"] = "/addbook"
-        # print("添加书籍时出错: ", e)
+
+        import traceback
+        traceback.print_exc()
+
         return render(request, "cloudlibrary/msg.html", cont_data)
     else:
         # 保存已发布的图书, 删除图书的时候不删除该记录
