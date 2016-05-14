@@ -20,7 +20,7 @@ table, tr, td{
 }
 p, h5, h4, h3, h2, h1{
     word-wrap : break-word;
-    word-break: break-all;
+    /*word-break: break-all;*/
     overflow: hidden;
 }
 .book-tag label{
@@ -39,6 +39,14 @@ p, h5, h4, h3, h2, h1{
     background-color: #607d8b;
 }
 
+.about-us p, h3 {
+    color: #888;
+    margin: 0;
+    padding: 0;
+}
+.about-us p{
+    font-size: 15px;
+}
 
 /*DEBUG*/
 /*a, div, span, table, ul, li , img{*/

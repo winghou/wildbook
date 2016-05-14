@@ -1,0 +1,110 @@
+{% load staticfiles %}
+{% include "cloudlibrary/includes/_common_head.html" %}
+{#在这里加载/编写自己的js/css#}
+
+{#在此之前添加 end#}
+{% include "cloudlibrary/includes/_common_head_sec.html" %}
+{% include "cloudlibrary/includes/_common_nav.html" %}
+{#以上为引入头部#}
+
+<div class="container">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="btn-group-vertical pull-right" style="width: 100%;">
+            <a class="btn btn-raised" id="collapse_first" href="javascript:void(0)" style="background-color: white;">关于我们</a>
+            <a class="btn btn-raised" id="collapse_second" href="javascript:void(0)" style="background-color: white;">联系我们</a>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <div class="jumbotron panel-collapse collapse in" id="collapseOne">
+            <h2>关于我们</h2>
+            <div style="background-color: #607d8b; color: white;padding: 10px;font-family: Baskerville;">
+                <p style="font-size: 18px;">Believed that you literally ought to be asking yourself all of the time,
+                    "What is the most important thing I could be working on in the world right now?" </p>
+                <p style="font-size: 18px;">And if you're not working on that, why aren't you?</p>
+                <p style="text-align: right;">Aaron Swartz</p>
+            </div>
+            <div class="clearfix" style="height: 30px;"></div>
+            <div>
+                <p style="color: #888;">
+                    <strong>野生机器</strong>
+                    <span>一个关于如何贡献这个世界的决定</span>
+                </p>
+            </div>
+        </div>
+        <div class="jumbotron panel-collapse collapse" id="collapseSec">
+            <h2>联系我们</h2>
+            <div class="row" style="padding: 5px;">
+                <img src="{% static 'public/image/wfw_head_pic.jpg' %}"
+                     style="width: 100px;height: 100px;padding: 0;border-radius: 50%;margin: 10px;"
+                     class="col-lg-5 col-md-5 col-sm-5 col-xs-5"/>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 about-us" style="margin-top: 18px;">
+                    <h3>凤尾</h3>
+                    <p>yesheng001@foxmail.com</p>
+                    <p>kobewfw</p>
+                    <p>
+                        <span class="label label-default">产品狗</span>
+                    </p>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row" style="padding: 5px;">
+                <img src="{% static 'public/image/bovenson_head_pic.jpg' %}"
+                     style="width: 100px;height: 100px;padding: 0;border-radius: 50%;margin: 10px;"
+                     class="col-lg-5 col-md-5 col-sm-5 col-xs-5"/>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 about-us" style="margin-top: 18px;">
+                    <h3>Bovenson</h3>
+                    <p>szhkai@qq.com</p>
+                    <p>907238952</p>
+                    <p>
+                        <span class="label label-success">程序猿</span>
+                        <span class="label label-info">WEB前端</span>
+                        <span class="label label-primary">后台</span>
+                    </p>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row" style="padding: 5px;">
+                <img src="{% static 'public/image/bovenson_head_pic.jpg' %}"
+                     style="width: 100px;height: 100px;padding: 0;border-radius: 50%;margin: 10px;"
+                     class="col-lg-5 col-md-5 col-sm-5 col-xs-5"/>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 about-us" style="margin-top: 18px;">
+                    <h3>lxx</h3>
+                    <p>lxx@qq.com</p>
+                    <p>********</p>
+                    <p>
+                        <span class="label label-success">程序猿</span>
+                        <span class="label label-success">iOS</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{#引入依赖js#}
+{% include "cloudlibrary/includes/_common_foot_before.html" %}
+{#自己写的js在这里加载/编写#}
+<script>
+    $(document).ready(function () {
+        var a_collapse_first = $('#collapse_first');
+        var a_collapse_second = $('#collapse_second');
+        var div_collapse_one = $('#collapseOne');
+        var div_collapse_sec = $('#collapseSec');
+        a_collapse_first.click(function () {
+            div_collapse_sec.removeClass("in");
+            div_collapse_one.addClass("in");
+        });
+        a_collapse_second.click(function () {
+            div_collapse_sec.addClass("in");
+            div_collapse_one.removeClass("in");
+        });
+    });
+</script>
+{#在此之前添加 end#}
+{#以下为引入尾部#}
+{% include "cloudlibrary/includes/_common_foot.html" %}

@@ -59,6 +59,9 @@ urlpatterns = [
     # 反馈
     url(r'^feedback/*$', views.add_feedback),
 
+    # 关于我们
+    url(r'^aboutus/*$', views.about_us, name="about_us"),
+
     # debug
     url(r'^debug/?$', views.debug),
 

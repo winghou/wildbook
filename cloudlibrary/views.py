@@ -47,3 +47,8 @@ def add_feedback(request):
         return JsonResponse(data)
         pass
     pass
+
+
+def about_us(request):
+    return render(request, "cloudlibrary/aboutus.html")
+    pass
