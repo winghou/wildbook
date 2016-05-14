@@ -50,10 +50,8 @@
                         <div class="row checkbox">
                             {% for tag in book_tag_first %}
                                 <label style="margin: 0 7px 0 0;">
-                                    <input name="tag_select" value="{{ tag.id }}" type="checkbox" />
-                                    <span class="label {{ tag_bgc_list|random }}">
-                                        <a href="#" id="{{ tag.id }}">{{ tag.name }}</a>
-                                    </span>
+                                    <input name="tag_select" value="{{ tag.id }}" type="checkbox" style="padding: 0;margin: 0;" />
+                                    <span class="label {{ tag_bgc_list|random }}">{{ tag.name }}</span>
                                 </label>
                             {% endfor %}
                             {% if book_tag_second|length > 0 %}
@@ -67,9 +65,7 @@
                                         {% for tag in book_tag_second %}
                                             <label style="margin: 0 7px 0 0;">
                                                 <input name="tag_select" value="{{ tag.id }}" type="checkbox" />
-                                                <span class="label {{ tag_bgc_list|random }}">
-                                                    <a href="#" id="{{ tag.id }}">{{ tag.name }}</a>
-                                                </span>
+                                                <span class="label {{ tag_bgc_list|random }}">{{ tag.name }}</span>
                                             </label>
                                         {% endfor %}
                                     </div>
