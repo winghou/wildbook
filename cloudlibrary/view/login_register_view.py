@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from cloudlibrary.models import WildUser
 from cloudlibrary.public.validate import validate_email, validate_user_info
 from cloudlibrary.static_vars import MAX_LEN_PASSWORD, MAX_LEN_EMAIL
-from cloudlibrary.view.operations import save_user_to_session
 
 
 def register(request):

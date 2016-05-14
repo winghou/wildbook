@@ -60,7 +60,7 @@ class WildBook(models.Model):
 
     owner = models.ForeignKey(WildUser, on_delete=models.CASCADE, null=True, blank=True)
     # 标签
-    tags = models.ManyToManyField(BookTag, null=True, blank=True)
+    tags = models.ManyToManyField(BookTag, blank=True)
 
     def __str__(self):
         return self.name
@@ -90,3 +90,12 @@ class WildBookReply(models.Model):
         return self.content
     pass
 
+
+class Feedback(models.Model):
+    content = models.CharField(max_length=200, default="未填写内容")
+    add_data = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(WildUser, null=True, blank=True)
+
+    def __str__(self):
+        return self.content
+    pass

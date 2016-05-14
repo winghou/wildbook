@@ -56,6 +56,9 @@ urlpatterns = [
     url(r'^search/*$', search_view.index_search, name="index_search"),
     url(r'^search/page/(?P<page>\d+)/*', search_view.index_search, name="index_search_with_page"),
 
+    # 反馈
+    url(r'^feedback/*$', views.add_feedback),
+
     # debug
     url(r'^debug/?$', views.debug),
 

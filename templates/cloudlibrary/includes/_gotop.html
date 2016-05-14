@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{#右下侧信息#}
+<div class="fixed-btn">
+    <div style="text-align: center">
+        <a href="#top">
+            <img src="{% static 'public/image/icon_up.png' %}" style="height: 30px;width: 30px;" title="返回顶部">
+        </a>
+        <hr style="margin: 0;padding: 0;"/>
+{#        <a href="#top">#}
+{#            <img src="{% static 'public/image/icon_about_us.png' %}" style="height: 30px;width: 30px;" title="关于我们">#}
+{#        </a>#}
+{#        <hr style="margin: 0;padding: 0;"/>#}
+        <a href="#" id="a_feedback">
+            <img src="{% static 'public/image/icon_fankui.png' %}" style="height: 30px;width: 30px;" title="反馈">
+        </a>
+    </div>
+</div>
+
+{#反馈模态窗口#}
+<div class="modal fade" id="modal_windows_feedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">写下你的反馈</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    {% csrf_token %}
+                    <textarea  class="form-control" rows="5" title="" name="bookdescription"
+                               id="modal_windows_feedback_input"
+                               placeholder="在这里写下您的不快(200字内)"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal_windows_feedback_confirm">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
