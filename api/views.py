@@ -39,8 +39,15 @@ class UserBookViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def user_login(request):
     data = {}
+    # print(json.loads(request.data))
+    # print(request.data)
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
+
     data["username"] = username
     # data["password"] = password
     user = authenticate(username=username, password=password)
@@ -68,8 +75,14 @@ def del_book(request):
     """删除书籍API"""
     data = {}
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     bookid = request.POST.get("bookid")
+    if bookid is None:
+        bookid = request.data.get("bookid")
     try:
         user = authenticate(username=username, password=password)
         # print(user)
@@ -109,8 +122,14 @@ def del_book(request):
 def edit_nickname(request):
     data = {}
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     nickname = request.POST.get("nickname")
+    if nickname is None:
+        nickname = request.data.get("nickname")
     try:
         user = authenticate(username=username, password=password)
         # print(user)
@@ -149,8 +168,14 @@ def edit_nickname(request):
 def edit_qq(request):
     data = {}
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     qq = request.POST.get("qq")
+    if qq is None:
+        qq = request.data.get("qq")
     try:
         user = authenticate(username=username, password=password)
         # print(user)
@@ -189,8 +214,14 @@ def edit_qq(request):
 def edit_tel(request):
     data = {}
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     tel = request.POST.get("tel")
+    if tel is None:
+        tel = request.data.get("tel")
     try:
         user = authenticate(username=username, password=password)
         # print(user)
@@ -229,8 +260,14 @@ def edit_tel(request):
 def edit_weixin(request):
     data = {}
     username = request.POST.get("username")
+    if username is None:
+        username = request.data.get("username")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     weixin = request.POST.get("weixin")
+    if weixin is None:
+        weixin = request.data.get("weixin")
     try:
         user = authenticate(username=username, password=password)
         # print(user)
@@ -269,7 +306,11 @@ def edit_weixin(request):
 def user_register(request):
     data = {}
     email = request.POST.get("email")
+    if email is None:
+        email = request.data.get("email")
     password = request.POST.get("password")
+    if password is None:
+        password = request.data.get("password")
     try:
         if email is None or password is None or len(str(email).strip()) == 0 or len(str(password).split()) == 0:
             data["res"] = "error"
