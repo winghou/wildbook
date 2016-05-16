@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^api/edit_qq/*$', api_views.edit_qq),
     url(r'^api/edit_tel/*$', api_views.edit_tel),
     url(r'^api/edit_weixin/*$', api_views.edit_weixin),
+    url(r'^api/user_register/*$', api_views.user_register),
 
     # 用户登录注册
     url(r'^login/*$', login_reg_view.userlogin, name="wild_login"),

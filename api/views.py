@@ -5,9 +5,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from cloudlibrary.static_vars import MAX_LEN_NICKNAME, MAX_LEN_QQ
+from cloudlibrary.static_vars import MAX_LEN_NICKNAME, MAX_LEN_QQ, MAX_LEN_EMAIL, MAX_LEN_PASSWORD
 
-from cloudlibrary.public.validate import validate_nickname, validate_qq, validate_tel, validate_weixin
+from cloudlibrary.public.validate import validate_nickname, validate_qq, validate_tel, validate_weixin, validate_email
 
 
 class WildUserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -263,3 +263,55 @@ def edit_weixin(request):
         data["msg"] = "修改成功"
         pass
     return Response(data)
+
+
+@api_view(['POST'])
+def user_register(request):
+    data = {}
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    try:
+        if email is None or password is None or len(str(email).strip()) == 0 or len(str(password).split()) == 0:
+            data["res"] = "error"
+            data["msg"] = "没有提供邮箱(email)/密码(password)"
+            raise Exception()
+            pass
+        if len(email) > MAX_LEN_EMAIL:
+            data["res"] = "error"
+            data["msg"] = "邮箱长度过长,请少于" + str(MAX_LEN_EMAIL) + "字"
+            raise Exception()
+        if len(password) > MAX_LEN_PASSWORD:
+            data["res"] = "error"
+            data["msg"] = "密码过长(请少于" + str(MAX_LEN_PASSWORD) + "字)"
+            raise Exception()
+        if not validate_email(email):
+            data["res"] = "error"
+            data["msg"] = "邮箱格式不正确"
+            raise Exception()
+        try:
+            WildUser.objects.get(username=email)
+            pass
+        except:
+            pass
+        else:
+            data["res"] = "error"
+            data["msg"] = "该用户名已被注册"
+            return Response(data)
+            pass
+        # 新建用户
+        WildUser.objects.create_user(username=email, password=password, nickname=email, email=email)
+        pass
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "注册时出现未知错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "注册成功"
+        pass
+    return Response(data)
+    pass
