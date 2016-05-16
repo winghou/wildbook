@@ -35,8 +35,8 @@ def index(request, page=1):
 
         # 得到标签
         book_tags = list(get_first_level_tags())
-        book_tag_first = book_tags[0:10]
-        book_tag_second = book_tags[10:]
+        book_tag_first = book_tags[0:8]
+        book_tag_second = book_tags[8:]
 
         # 对描述字数进行限制
         max_len_desc = 80

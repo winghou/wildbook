@@ -20,10 +20,33 @@ table, tr, td{
 }
 p, h5, h4, h3, h2, h1{
     word-wrap : break-word;
-    word-break: break-all;
+    /*word-break: break-all;*/
     overflow: hidden;
 }
+.book-tag label{
+    margin: 0;
+}
+.book-tag a {
+    color: white;
+}
 
+.fixed-btn {
+    position: fixed;
+    right: 1%;
+    bottom: 2%;
+    width: 40px;
+    border: 1px solid #eee;
+    background-color: #607d8b;
+}
+
+.about-us p, h3 {
+    color: #888;
+    margin: 0;
+    padding: 0;
+}
+.about-us p{
+    font-size: 15px;
+}
 
 /*DEBUG*/
 /*a, div, span, table, ul, li , img{*/

@@ -43,11 +43,12 @@ def user_login(request):
     user = authenticate(username=username, password=password)
     # print(user)
     if user is not None:
-        data["result"] = "true"
+        data["res"] = "success"
         data["uid"] = user.id
         pass
     else:
-        data["result"] = "false"
+        data["res"] = "error"
+        data["msg"] = "用户名/密码错误"
     return Response(data)
     pass
 
