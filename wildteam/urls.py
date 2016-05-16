@@ -22,7 +22,7 @@ import cloudlibrary.urls
 from wildteam import settings
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^wbadmin/', include(admin.site.urls)),
 ]
 
 # 设置media

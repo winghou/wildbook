@@ -1,5 +1,6 @@
 # coding: utf-8
 import re
+from cloudlibrary.static_vars import MAX_LEN_NICKNAME
 
 
 def validate_qq(str_to_validate):
@@ -62,6 +63,17 @@ def validate_username(str_to_validate):
     except:
         return False
     pass
+
+
+def validate_nickname(str_to_validate):
+    try:
+        if str_to_validate is not None and len(str_to_validate) > MAX_LEN_NICKNAME:
+            return False
+        if str_to_validate is not None and len(str_to_validate) == 0:
+            return False
+        return True
+    except:
+        return False
 
 
 def validate_email(str_to_validate):

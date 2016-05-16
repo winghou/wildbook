@@ -22,6 +22,11 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/user_login/*$', api_views.user_login),
     url(r'^api/add_book/*$', api_views.add_book),
+    url(r'^api/del_book/*$', api_views.del_book),
+    url(r'^api/edit_nickname/*$', api_views.edit_nickname),
+    url(r'^api/edit_qq/*$', api_views.edit_qq),
+    url(r'^api/edit_tel/*$', api_views.edit_tel),
+    url(r'^api/edit_weixin/*$', api_views.edit_weixin),
 
     # 用户登录注册
     url(r'^login/*$', login_reg_view.userlogin, name="wild_login"),

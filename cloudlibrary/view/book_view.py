@@ -68,16 +68,19 @@ def del_book(request):
         if img_path.find(DEFAULT_PIC_NAME) < 0 and os.path.exists(img_path) and os.path.isfile(img_path):
             os.remove(img_path)
             pass
-        # 从七牛删除相应图片
-        try:
-            if img_path.find(DEFAULT_PIC_NAME) < 0:
-                del_pic_from_qiniu(book.pic)
-            pass
-        except Exception as e:
-            print("从七牛删除图片时出错:", e)
-            pass
-        pass
+
+        # 先不从七牛删除, 空间那么多
+        # # 从七牛删除相应图片
+        # try:
+        #     if img_path.find(DEFAULT_PIC_NAME) < 0:
+        #         del_pic_from_qiniu(book.pic)
+        #     pass
+        # except Exception as e:
+        #     print("从七牛删除图片时出错:", e)
+        #     pass
+        # pass
         # 执行删除
+
         book.delete()
     except Exception as e:
         print(e)

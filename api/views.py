@@ -5,6 +5,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from cloudlibrary.static_vars import MAX_LEN_NICKNAME, MAX_LEN_QQ
+
+from cloudlibrary.public.validate import validate_nickname, validate_qq, validate_tel, validate_weixin
 
 
 class WildUserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -58,3 +61,205 @@ def add_book(request):
     img = request.POST.get("img")
     print(img)
     pass
+
+
+@api_view(['POST'])
+def del_book(request):
+    """删除书籍API"""
+    data = {}
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    bookid = request.POST.get("bookid")
+    try:
+        user = authenticate(username=username, password=password)
+        # print(user)
+        if user is None:
+            data["res"] = "error"
+            data["msg"] = "用户认证失败"
+            raise Exception()
+            pass
+
+        book = WildBook.objects.get(id=bookid)
+
+        if book.owner.id != user.id:
+            data["res"] = "error"
+            data["msg"] = "不是书的主人,无法删除该书籍"
+            raise Exception()
+        book.delete()
+        pass
+    except WildBook.DoesNotExist:
+        data["res"] = "error"
+        data["msg"] = "没有找到相应图书"
+        pass
+    except Exception as e:
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "删除书籍时出现未知错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "删除成功"
+        pass
+    return Response(data)
+    pass
+
+
+@api_view(['POST'])
+def edit_nickname(request):
+    data = {}
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    nickname = request.POST.get("nickname")
+    try:
+        user = authenticate(username=username, password=password)
+        # print(user)
+        if user is None:
+            data["res"] = "error"
+            data["msg"] = "用户认证失败"
+            raise Exception()
+            pass
+        if nickname is None:
+            data["res"] = "error"
+            data["msg"] = "没有接收到新昵称"
+            raise Exception()
+        if validate_nickname(nickname) is False:
+            data["res"] = "error"
+            data["msg"] = "昵称格式不正确,不要留空或多于 " + str(MAX_LEN_NICKNAME) + " 字"
+            raise Exception()
+            pass
+        wilduser = WildUser.objects.get(id=user.id)
+        wilduser.nickname = nickname
+        wilduser.save()
+        pass
+    except Exception as e:
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "修改昵称时出现错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "修改成功"
+        pass
+    return Response(data)
+
+
+@api_view(['POST'])
+def edit_qq(request):
+    data = {}
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    qq = request.POST.get("qq")
+    try:
+        user = authenticate(username=username, password=password)
+        # print(user)
+        if user is None:
+            data["res"] = "error"
+            data["msg"] = "用户认证失败"
+            raise Exception()
+            pass
+        if qq is None:
+            data["res"] = "error"
+            data["msg"] = "没有接收到新QQ"
+            raise Exception()
+        if validate_qq(qq) is False:
+            data["res"] = "error"
+            data["msg"] = "QQ格式不正确"
+            raise Exception()
+            pass
+        wilduser = WildUser.objects.get(id=user.id)
+        wilduser.qq = qq
+        wilduser.save()
+        pass
+    except Exception as e:
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "修改QQ时出现错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "修改成功"
+        pass
+    return Response(data)
+
+
+@api_view(['POST'])
+def edit_tel(request):
+    data = {}
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    tel = request.POST.get("tel")
+    try:
+        user = authenticate(username=username, password=password)
+        # print(user)
+        if user is None:
+            data["res"] = "error"
+            data["msg"] = "用户认证失败"
+            raise Exception()
+            pass
+        if tel is None:
+            data["res"] = "error"
+            data["msg"] = "没有接收到新电话"
+            raise Exception()
+        if validate_tel(tel) is False:
+            data["res"] = "error"
+            data["msg"] = "电话格式不正确"
+            raise Exception()
+            pass
+        wilduser = WildUser.objects.get(id=user.id)
+        wilduser.tel = tel
+        wilduser.save()
+        pass
+    except Exception as e:
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "修改电话时出现错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "修改成功"
+        pass
+    return Response(data)
+
+
+@api_view(['POST'])
+def edit_weixin(request):
+    data = {}
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    weixin = request.POST.get("weixin")
+    try:
+        user = authenticate(username=username, password=password)
+        # print(user)
+        if user is None:
+            data["res"] = "error"
+            data["msg"] = "用户认证失败"
+            raise Exception()
+            pass
+        if weixin is None:
+            data["res"] = "error"
+            data["msg"] = "没有接收到新微信"
+            raise Exception()
+        if validate_weixin(weixin) is False:
+            data["res"] = "error"
+            data["msg"] = "微信格式不正确"
+            raise Exception()
+            pass
+        wilduser = WildUser.objects.get(id=user.id)
+        wilduser.weixin = weixin
+        wilduser.save()
+        pass
+    except Exception as e:
+        print(e)
+        if data.get("res") is None:
+            data["res"] = "error"
+            data["msg"] = "修改微信时出现错误"
+        pass
+    else:
+        data["res"] = "success"
+        data["msg"] = "修改成功"
+        pass
+    return Response(data)
