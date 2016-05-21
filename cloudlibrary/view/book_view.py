@@ -6,15 +6,14 @@ from urllib.parse import urljoin
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponseNotModified, JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from cloudlibrary.db.common import get_oldest_unread_reply_date, get_first_level_tags
 from cloudlibrary.static_vars import BOOK_PIC_UPLOAD_PATH, DEFAULT_PIC_NAME, MAX_LEN_BOOK_NAME, MAX_LEN_DESCRIPTION
 from cloudlibrary.models import WildBook, WildUser, WildBookHistory, WildBookReply, BookTag
-from cloudlibrary.public.qiniu import save_file_to_qiniu, del_pic_from_qiniu
+from cloudlibrary.public.qiniu import save_file_to_qiniu
 from wildteam import settings
-from wildteam.settings import BASE_DIR
 
 
 @login_required

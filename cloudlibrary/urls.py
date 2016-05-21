@@ -15,6 +15,8 @@ router = routers.DefaultRouter()
 router.register(r'wilduser', api_views.WildUserViewSet)
 router.register(r'index_book', api_views.IndexBookViewSet)
 router.register(r'user_book', api_views.UserBookViewSet, base_name='cloudlibrary')
+router.register(r'search', api_views.SearchViewSet, base_name='cloudlibrary')
+router.register(r'reply', api_views.BookReplyViewSet, base_name='cloudlibrary')
 
 
 urlpatterns = [

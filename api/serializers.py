@@ -1,5 +1,5 @@
 # coding: utf-8
-from cloudlibrary.models import WildBook, WildUser
+from cloudlibrary.models import WildBook, WildUser, WildBookReply
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -19,6 +19,16 @@ class WildBookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WildBook
         fields = ('url', 'id', 'name', 'description', 'pic', 'add_date', 'newreply', 'owner')
+    pass
+
+
+class WildBookReplySerializer(serializers.HyperlinkedModelSerializer):
+    # url = serializers.HyperlinkedIdentityField(view_name="cloudlibrary:wildbookreply-detail")
+    user = WildUserSerializer()
+
+    class Meta:
+        model = WildBookReply
+        fields = ('content', 'add_date', 'user')
     pass
 
     # def update(self, instance, validated_data):

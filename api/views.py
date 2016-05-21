@@ -1,13 +1,19 @@
 # coding: utf-8
-from api.serializers import WildUserSerializer, WildBookSerializer
-from cloudlibrary.models import WildUser, WildBook
+import os
+import time
+from urllib.parse import urljoin
+from cloudlibrary.public.qiniu import save_file_to_qiniu
+from api.serializers import WildUserSerializer, WildBookSerializer, WildBookReplySerializer
+from cloudlibrary.db.search import search_book
+from cloudlibrary.models import *
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
-from cloudlibrary.static_vars import MAX_LEN_NICKNAME, MAX_LEN_QQ, MAX_LEN_EMAIL, MAX_LEN_PASSWORD
+from cloudlibrary.static_vars import *
 
 from cloudlibrary.public.validate import validate_nickname, validate_qq, validate_tel, validate_weixin, validate_email
+from wildteam import settings
 
 
 class WildUserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -40,7 +46,8 @@ class UserBookViewSet(viewsets.ModelViewSet):
 def user_login(request):
     data = {}
     # print(json.loads(request.data))
-    # print(request.data)
+    print("data:", request.data)
+    print("POST:", request.POST)
     username = request.POST.get("username")
     if username is None:
         username = request.data.get("username")
@@ -65,9 +72,81 @@ def user_login(request):
 
 @api_view(['POST'])
 def add_book(request):
-    img = request.POST.get("img")
-    print(img)
-    pass
+    # 用户名 username
+    # 密码   password
+    #       bookname
+    #       bookdescription
+    #       bookimg
+    cont_data = {}
+    try:
+        # 验证用户
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is None:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "用户账号/密码错误"
+            raise Exception()
+        pass
+        # 书名
+        book_name = request.POST.get("bookname")
+        if book_name is None or str(book_name).strip() == "":
+            cont_data["res"] = "error"
+            cont_data["msg"] = "请输入书名"
+        if len(book_name) > MAX_LEN_BOOK_NAME:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "书名过长,请少于" + str(MAX_LEN_BOOK_NAME) + "字"
+            pass
+        # 描述
+        book_description = request.POST.get("bookdescription")
+        if book_description is None:
+            book_description = ""
+        if len(book_description) > MAX_LEN_DESCRIPTION:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "描述过长,请少于" + str(MAX_LEN_DESCRIPTION) + "字"
+            pass
+        # 图片
+        img = request.FILES.get('bookimg')
+        # 图片类型
+        content_type = str(img.name).split('.')[-1]
+        # 支持的图片类型
+        support_pic_format = ["jpg", "jpeg", "png", "bmp", "gif"]
+        # 图片最终的文件名
+        book_img = '.'.join((str(time.time()).replace('.', ''), content_type))
+        if content_type not in support_pic_format:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "发布失败,不支持的图片格式"
+            raise Exception("图片格式不正确")
+            pass
+        if img.size > 1024000:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "发布失败,图片过大"
+            raise Exception("图片太大")
+            pass
+        print(img)
+        # 保存图片
+        img_path = os.path.join(str(BOOK_PIC_UPLOAD_PATH), book_img)
+        print(img_path)
+        # print(img_path)
+        with open(img_path, "wb") as f:
+            for chunk in img.chunks():
+                f.write(chunk)
+        save_file_to_qiniu(img_path, book_img)
+        book = WildBook(name=book_name, description=book_description, pic=book_img, owner_id=user.id)
+        book.pic = urljoin(settings.QINIU_DOMAIN, book.pic)
+        book.save()
+        pass
+    except:
+        if cont_data.get("res") is None:
+            cont_data["res"] = "error"
+            cont_data["msg"] = "发布图书时发生未知错误,请重试/反馈"
+        import traceback
+        traceback.print_exc()
+        pass
+    else:
+        cont_data["res"] = "success"
+        cont_data["msg"] = "发布成功"
+    return Response(cont_data)
 
 
 @api_view(['POST'])
@@ -356,3 +435,40 @@ def user_register(request):
         pass
     return Response(data)
     pass
+
+
+class SearchViewSet(viewsets.ModelViewSet):
+    serializer_class = WildBookSerializer
+
+    def get_queryset(self):
+        books = ""
+        try:
+            search_content = self.request.GET.get("search_content")
+            books = search_book(search_content)
+            pass
+        except:
+            pass
+        return books
+        pass
+    pass
+
+
+class BookReplyViewSet(viewsets.ModelViewSet):
+    # queryset = WildBookReply.objects.all()
+    serializer_class = WildBookReplySerializer
+
+    def get_queryset(self):
+        replys = ""
+        try:
+            book_id = self.request.POST.get("bookid")
+            if book_id is None:
+                book_id = self.request.GET.get("bookid")
+            print(book_id)
+            replys = WildBookReply.objects.filter(book_id=book_id)
+            pass
+        except:
+            pass
+        return replys
+        pass
+    pass
+
