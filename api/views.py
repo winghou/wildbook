@@ -90,6 +90,8 @@ def add_book(request):
         pass
         # 书名
         book_name = request.POST.get("bookname")
+        if book_name is None:
+            book_name = request.POST.get("bookname")
         if book_name is None or str(book_name).strip() == "":
             cont_data["res"] = "error"
             cont_data["msg"] = "请输入书名"
@@ -107,31 +109,34 @@ def add_book(request):
             pass
         # 图片
         img = request.FILES.get('bookimg')
-        # 图片类型
-        content_type = str(img.name).split('.')[-1]
-        # 支持的图片类型
-        support_pic_format = ["jpg", "jpeg", "png", "bmp", "gif"]
-        # 图片最终的文件名
-        book_img = '.'.join((str(time.time()).replace('.', ''), content_type))
-        if content_type not in support_pic_format:
-            cont_data["res"] = "error"
-            cont_data["msg"] = "发布失败,不支持的图片格式"
-            raise Exception("图片格式不正确")
+        book_img = None
+        if img is not None:
+            # 图片类型
+            content_type = str(img.name).split('.')[-1]
+            # 支持的图片类型
+            support_pic_format = ["jpg", "jpeg", "png", "bmp", "gif"]
+            # 图片最终的文件名
+            book_img = '.'.join((str(time.time()).replace('.', ''), content_type))
+            if content_type not in support_pic_format:
+                cont_data["res"] = "error"
+                cont_data["msg"] = "发布失败,不支持的图片格式"
+                raise Exception("图片格式不正确")
+                pass
+            if img.size > 1024000:
+                cont_data["res"] = "error"
+                cont_data["msg"] = "发布失败,图片过大"
+                raise Exception("图片太大")
+                pass
+            print(img)
+            # 保存图片
+            img_path = os.path.join(str(BOOK_PIC_UPLOAD_PATH), book_img)
+            print(img_path)
+            # print(img_path)
+            with open(img_path, "wb") as f:
+                for chunk in img.chunks():
+                    f.write(chunk)
+            save_file_to_qiniu(img_path, book_img)
             pass
-        if img.size > 1024000:
-            cont_data["res"] = "error"
-            cont_data["msg"] = "发布失败,图片过大"
-            raise Exception("图片太大")
-            pass
-        print(img)
-        # 保存图片
-        img_path = os.path.join(str(BOOK_PIC_UPLOAD_PATH), book_img)
-        print(img_path)
-        # print(img_path)
-        with open(img_path, "wb") as f:
-            for chunk in img.chunks():
-                f.write(chunk)
-        save_file_to_qiniu(img_path, book_img)
         book = WildBook(name=book_name, description=book_description, pic=book_img, owner_id=user.id)
         book.pic = urljoin(settings.QINIU_DOMAIN, book.pic)
         book.save()
